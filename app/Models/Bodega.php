@@ -5,30 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Sucursal extends Model
+class Bodega extends Model
 {
-  // Nombre de la tabla 
-    protected $table = 'Sucursal';
+     // Nombre de la tabla 
+    protected $table = 'Bodega';
 
     //Se define como PrimaryKey y autoincremental gg
-    protected $primaryKey = 'Idsucursal';
+    protected $primaryKey = 'Idbodega';
     public $incrementing = true;
     //protected $keyType = 'int';
 
     // Campos que se pueden asignar de forma masiva
     protected $fillable = [
-        'Nombre_Sucursal',
+        'Nombre_bodega',
         'Direccion',
-        'Gerente'
+        'Idsucursal'
     ]; 
 
-//    public function users()
+//    public function Detmov()
 //     {
-//         return $this->belongsTo(User::class, 'Gerente', 'Idusuario');
+//         return $this->hasMany(User::class, 'Gerente', 'Idusuario');
 //     }
 
     public function bodega()
     {
-       return $this->hasMany(Bodega::class, 'Idsucursal', 'Idsucursal');
-    } 
+        return $this->belongsTo(Sucursal::class, 'Idsucursal', 'Idsucursal');
+    }
 }
