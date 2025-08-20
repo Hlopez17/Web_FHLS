@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sucursals', function (Blueprint $table) {
-            $table->id('Idsucursal');
-            $table->string('Nombre_Sucursal');
+        Schema::create('proveedors', function (Blueprint $table) {
+            $table->id('Idproveedor');
+            $table->string('Razon_social');
+            $table->string('Telefono');
             $table->string('Direccion')->nullable();
-            $table->string('Gerente')->nullable();
+            $table->string('Correo')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sucursals');
+        Schema::dropIfExists('proveedors');
     }
 };

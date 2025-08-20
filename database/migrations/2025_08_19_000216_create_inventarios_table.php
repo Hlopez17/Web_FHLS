@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sucursals', function (Blueprint $table) {
-            $table->id('Idsucursal');
-            $table->string('Nombre_Sucursal');
-            $table->string('Direccion')->nullable();
-            $table->string('Gerente')->nullable();
+        Schema::create('inventarios', function (Blueprint $table) {
+            $table->id('Id_inventario');
+            $table->unsignedBigInteger('Idbodega');
+            $table->foreign('Idbodega')->references('Idbodega')->on('bodegas');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sucursals');
+        Schema::dropIfExists('inventarios');
     }
 };

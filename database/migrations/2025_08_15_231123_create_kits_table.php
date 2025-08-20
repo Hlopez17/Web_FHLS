@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sucursals', function (Blueprint $table) {
-            $table->id('Idsucursal');
-            $table->string('Nombre_Sucursal');
-            $table->string('Direccion')->nullable();
-            $table->string('Gerente')->nullable();
+        Schema::create('kits', function (Blueprint $table) {
+            $table->id('Idkit');
+            $table->string('Nombre_kit');
+            $table->decimal('Precio_kit', 10, 2)->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sucursals');
+        Schema::dropIfExists('kits');
     }
 };
