@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('unidadmedidas', function (Blueprint $table) {
-            $table->id();
+            $table->id('Id_Medida');
+            $table->string('Nombre_Medida');
             $table->timestamps();
         });
     }

@@ -25,6 +25,16 @@ class Proveedor extends Model
 
     public function productoprov()
     {
-        return $this->hasMany(DetalleKit::class, 'Idkit','Idkit');
+        return $this->hasMany(Productoprov::class, 'Idproveedor','Idproveedor');
+    }
+
+    public function recepciones()
+    {
+        return $this->hasMany(Recepciones::class, 'Idproveedor','Idproveedor');
+    }
+
+    public function cuentascobrar()
+    {
+        return $this->hasMany(Cuentas_cobrar::class, 'Idproveedor','Idproveedor');
     }
 }

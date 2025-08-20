@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Producto extends Model
 {
@@ -18,9 +19,9 @@ class Producto extends Model
     protected $fillable = [
         'Idsubcat',
         'Id_Medida',
-        'Cantidad',
         'Codigo_barra',
         'Nombre',
+        'foto',
         'Precio_costo',
         'Precio_venta',
         'Precio_descuento',
@@ -32,4 +33,31 @@ class Producto extends Model
      {
         return $this->belongsTo(Unidadmedida::class, 'Id_Medida','Id_Medida');
      }
+
+      public function Productoprov()
+     {
+        return $this->hasMany(Productoprov::class, 'Idproducto','Idproducto');
+     }
+
+      public function detalleinv()
+    {
+        return $this->hasMany(Detalle_inv::class, 'Idproducto','Idproducto');
+    }
+
+     public function detallemov()
+      {
+        return $this->hasMany(Detalle_Mov::class, 'Idproducto','Idproducto');
+      }
+
+      public function subcat()
+      {
+         return $this->belongsTo(Subcategoria::class, 'Idsubcat','Idsubcat');
+      }
+
+      public function detallecot()
+      {
+         return $this->hasMany(Detalle_cot::class, 'Idproducto','Idproducto');
+      }
+
+     //Idsubcat
 }

@@ -28,6 +28,7 @@ class User extends Authenticatable
         'password',
         'Estado',
         'Telefono',
+        'foto_perfil',
         'Idrol',
         'Comision',
         
@@ -36,6 +37,31 @@ class User extends Authenticatable
      public function rol()
     {
         return $this->belongsTo(Rol::class,'Idrol', 'Idrol');
+    }
+    
+    public function cotizacion()
+    {
+        return $this->hasMany(Cotizacion::class, 'Idusuario','Idusuario');
+    }
+
+     public function factura()
+    {
+        return $this->hasMany(Factura::class, 'Idusuario','Idusuario');
+    }
+
+     public function movimiento()
+    {
+        return $this->hasMany(Movimiento::class, 'Idusuario','Idusuario');
+    }
+
+    public function abonocliente()
+    {
+        return $this->hasMany(Abono_cliente::class, 'Idusuario','Idusuario');
+    }
+
+    public function devoluciones()
+    {
+        return $this->hasMany(Devoluciones::class, 'Idusuario','Idusuario');
     }
 
     /**

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('Estado')->nullable();
             $table->string('Telefono')->nullable();
+            $table->string('foto_perfil')->nullable();
             $table->unsignedBigInteger('Idrol')->nullable();
             $table->decimal('Comision', 8, 2)->nullable();
 

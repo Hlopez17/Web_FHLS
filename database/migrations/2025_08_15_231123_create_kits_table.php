@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kits', function (Blueprint $table) {
-            $table->id();
+            $table->id('Idkit');
+            $table->string('Nombre_kit');
+            $table->decimal('Precio_kit', 10, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -25,5 +25,16 @@ class Kit extends Model
     {
         return $this->hasMany(DetalleKit::class, 'Idkit','Idkit');
     }
+
+    public function detallefac()
+    {
+        return $this->hasMany(Detalle_Fac::class, 'Idkit','Idkit');
+    }
+
+    public function detallecot()
+    {
+        return $this->hasMany(Detalle_cot::class, 'Idkit','Idkit');
+    }
+    
     
 }

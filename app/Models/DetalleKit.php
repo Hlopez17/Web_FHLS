@@ -26,4 +26,9 @@ class DetalleKit extends Model
      {
         return $this->belongsTo(Kit::class, 'Idkit','Idkit');
      }
+
+     public function producto()
+     {
+        return $this->belongsTo(Producto::class, 'Idproducto','Idproducto');
+     }
 }

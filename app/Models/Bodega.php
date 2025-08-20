@@ -27,8 +27,18 @@ class Bodega extends Model
 //         return $this->hasMany(User::class, 'Gerente', 'Idusuario');
 //     }
 
-    public function bodega()
+     public function inventario()
+    {
+        return $this->hasMany(Inventario::class, 'Idbodega','Idbodega');
+    }
+
+    public function sucursal()
     {
         return $this->belongsTo(Sucursal::class, 'Idsucursal', 'Idsucursal');
+    }
+
+    public function detallemov()
+    {
+        return $this->hasMany(Detalle_Mov::class, 'Idbodega','Idbodega');
     }
 }
