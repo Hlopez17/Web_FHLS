@@ -1,4 +1,5 @@
-import '../css/app.css';
+//import '../css/app.css';
+import '../css/adminone/main.css';
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';

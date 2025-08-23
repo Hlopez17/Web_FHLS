@@ -165,3 +165,12 @@
         @apply bg-background text-foreground;
     }
 }
+
+
+/* ==== Estilos adicionales de Admin One ==== */
+@import './adminone/_checkbox-radio-switch.css';
+@import './adminone/_progress.css';
+@import './adminone/_scrollbars.css';
+@import './adminone/_table.css';
+@import './adminone/styles/_basic.css';
+@import './adminone/styles/_white.css';
