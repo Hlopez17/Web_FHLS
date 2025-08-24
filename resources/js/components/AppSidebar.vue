@@ -5,14 +5,32 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
+//Iconos
+import { BookOpen, Folder, LayoutGrid, UsersRound, Contact} from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
+
+//Menu Lateral
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: '/dashboard',
         icon: LayoutGrid,
+    },
+    {
+        title: 'Productos',
+        href: '/productos',
+        icon: Folder, // o cualquier otro ícono de lucide-vue-next
+    },
+    {
+        title: 'Proveedores',
+        href: '/Proveedor',//route('proveedor.index'), // 👈 referencia por nombre
+        icon: Contact, // o cualquier otro ícono de lucide-vue-next
+    },
+    {
+        title: 'Usuarios',
+        href: '/inventario',
+        icon: UsersRound,
     },
 ];
 

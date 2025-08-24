@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ProveedorController extends Controller
 {
@@ -12,7 +13,14 @@ class ProveedorController extends Controller
      */
     public function index()
     {
-        //
+        //Llama al archivo '.Vue' dentro de 'Page'
+        return Inertia::render('Proveedor/Index', [
+            'proveedors'=>Proveedor::all()
+            //'Proveedor' => Proveedor::select('id', 'name', 'email', 'position', 'salary')->paginate(10), //recupera solo los campos necesarios y paginados
+            ]);
+        
+
+       
     }
 
     /**
