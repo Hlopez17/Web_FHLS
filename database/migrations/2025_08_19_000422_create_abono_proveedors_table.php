@@ -18,11 +18,10 @@ return new class extends Migration
             $table->unsignedBigInteger('Id_tipopago');
             $table->foreign('Id_tipopago')->references('Id_tipopago')->on('tipo_pagos');
             $table->string('Referencia');
-            $table->interger('Num_abono');
+            $table->integer('Num_abono'); // Corregido: interger -> integer
             $table->date('Fecha');
             $table->decimal('Monto_abono', 10,2);
             $table->timestamps();
-
         });
     }
 

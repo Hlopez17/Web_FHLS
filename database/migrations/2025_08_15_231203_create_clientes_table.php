@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('Correo')->nullable();
             $table->decimal('Limitecredito', 10, 2)->nullable();
             $table->decimal('Saldocredito', 10, 2)->nullable();
-
             $table->timestamps();
         });
     }

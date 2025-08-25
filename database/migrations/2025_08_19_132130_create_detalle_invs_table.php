@@ -18,9 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('Idproducto');
             $table->foreign('Idproducto')->references('Idproducto')->on('productos');
             $table->decimal('Cantidad', 10,2);
-            $table->Interger('Min_stock');
+            $table->integer('Min_stock'); // Corregido: Interger -> integer
             $table->timestamps();
-
         });
     }
 

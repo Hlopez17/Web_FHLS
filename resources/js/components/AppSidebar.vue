@@ -29,7 +29,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Usuarios',
-        href: '/inventario',
+        href: route('usuario.index'), // 👈 Usando nombre de ruta
         icon: UsersRound,
     },
 ];
