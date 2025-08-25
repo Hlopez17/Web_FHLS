@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('Idusuario');
             $table->foreign('Idusuario')->references('Idusuario')->on('users');
             $table->unsignedBigInteger('Idcliente');
-            $table->foreign('Idcliente')->references('Idcliente')->on('Cliente');
+            $table->foreign('Idcliente')->references('Idcliente')->on('clientes');
             $table->string('Motivo')->nullable();
             $table->string('Tipo_mov');
             $table->decimal('Total_Mov', 10,2);
