@@ -29,7 +29,11 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Usuarios',
+<<<<<<< HEAD
         href: '/User',
+=======
+        href: '/User', // 👈 Usando nombre de ruta -- el nombre de la ruta en routes es el que se usara xd 
+>>>>>>> 0d5e170 (Se implemnetaron mejoras para usuarios ya funcionan --al 100 la UI)
         icon: UsersRound,
     },
 ];

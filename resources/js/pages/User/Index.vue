@@ -9,7 +9,7 @@ import { computed, ref } from 'vue';
 import type { User as UserType } from '@/types';
 import EditarUsuario from './editar.vue';
 import CrearUsuario from './crear.vue';
-import BorrarUsuario from './borrar.vue';
+import BorrarUsuario from './Borrar.vue';
 
 interface UserPageProps extends SharedData {
   users: UserType[];
