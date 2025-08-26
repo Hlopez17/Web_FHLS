@@ -178,7 +178,6 @@ Route::middleware(['auth', 'verified'])->group(function(){
 // Route::get('/Proveedor/{employee}/edit', [ProveedorController::class, 'edit'])->name('Proveedor.edit');
 // Route::put('/Proveedor/{employee}', [ProveedorController::class, 'update'])->name('Proveedor.update');
 // Route::delete('/Proveedor/{employee}', [ProveedorController::class, 'destroy'])->name('Proveedor.destroy');
-});
 
 
 require __DIR__.'/settings.php';
