@@ -83,6 +83,7 @@ const formatEstado = (estado: string | null) => {
               <TableHead>Teléfono</TableHead>
               <TableHead>Rol</TableHead>
               <TableHead>Estado</TableHead>
+              <TableHead>Comision</TableHead>
               <TableHead class="text-center">Acciones</TableHead>
             </TableRow>
           </TableHeader>
@@ -110,6 +111,12 @@ const formatEstado = (estado: string | null) => {
                 <span class="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
                   {{ getRoleName(user.Idrol) }}
                 </span>
+              </TableCell>
+              <TableCell>
+                <div class="flex items-center gap-2">
+                  <Mail class="h-4 w-4 text-muted-foreground" />
+                  {{ user.Comision }}
+                </div>
               </TableCell>
               <TableCell>
                 <span 

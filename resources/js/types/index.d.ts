@@ -37,12 +37,30 @@ export interface User {
 
 export type BreadcrumbItemType = BreadcrumbItem;
 
+//Datos que se cargan del Modelo, para Mostrar en la tabla
 export interface Proveedor {
     id: number;
     Razon_social:string;
     Telefono:string;
     Direccion:string;
     Correo:string | null;
+    created_at: string;
+    updated_at: string;
+}
+
+//Datos que se cargan del Modelo, para Mostrar en la tabla
+export interface Producto {
+    id: number;
+    Idsubcat: number;
+    Id_Medida: number;
+    Codigo_barra: string;
+    Nombre:string
+    foto:string
+    Precio_costo:number;
+    Precio_venta:number;
+    Precio_descuento:number;
+    Precio_Mayorista:number;
+    Estado:string;
     created_at: string;
     updated_at: string;
 }

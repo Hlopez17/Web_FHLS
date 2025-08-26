@@ -6,7 +6,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
 //Iconos
-import { BookOpen, Folder, LayoutGrid, UsersRound, Contact} from 'lucide-vue-next';
+import { BookOpen, Folder, LayoutGrid, UsersRound, Contact, ShoppingBasket } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 
@@ -19,8 +19,8 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Productos',
-        href: '/productos',
-        icon: Folder, // o cualquier otro ícono de lucide-vue-next
+        href: '/Producto',
+        icon: ShoppingBasket, // o cualquier otro ícono de lucide-vue-next
     },
     {
         title: 'Proveedores',

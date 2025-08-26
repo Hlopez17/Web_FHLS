@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ProductoController extends Controller
 {
@@ -12,7 +13,11 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        //
+         //Llama al archivo '.Vue' dentro de 'Page'
+        return Inertia::render('Productos/Index', [
+            'productos'=>Producto::all()
+            //'Proveedor' => Proveedor::select('id', 'name', 'email', 'position', 'salary')->paginate(10), //recupera solo los campos necesarios y paginados
+            ]);
     }
 
     /**
