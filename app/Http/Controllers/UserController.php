@@ -2,25 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Proveedor;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class ProveedorController extends Controller
+
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //Llama al archivo '.Vue' dentro de 'Page'
-        return Inertia::render('Proveedor/Index', [
-            'proveedors'=>Proveedor::all()
-            //'Proveedor' => Proveedor::select('id', 'name', 'email', 'position', 'salary')->paginate(10), //recupera solo los campos necesarios y paginados
-            ]);
-        
-
-       
+        return Inertia::render('User/Index', [ // ← Cambiado a 'User/Index'
+            'users' => User::all() // ← También cambiar la clave
+        ]);
     }
 
     /**
@@ -42,7 +38,7 @@ class ProveedorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Proveedor $proveedor)
+    public function show(User $user)
     {
         //
     }
@@ -50,7 +46,7 @@ class ProveedorController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Proveedor $proveedor)
+    public function edit(User $user)
     {
         //
     }
@@ -58,7 +54,7 @@ class ProveedorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Proveedor $proveedor)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -66,7 +62,7 @@ class ProveedorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Proveedor $proveedor)
+    public function destroy(User $user)
     {
         //
     }

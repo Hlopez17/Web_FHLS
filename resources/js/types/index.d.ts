@@ -36,3 +36,13 @@ export interface User {
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
+
+export interface Proveedor {
+    id: number;
+    Razon_social:string;
+    Telefono:string;
+    Direccion:string;
+    Correo:string | null;
+    created_at: string;
+    updated_at: string;
+}

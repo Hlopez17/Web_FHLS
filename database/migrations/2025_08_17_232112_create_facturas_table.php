@@ -21,8 +21,6 @@ return new class extends Migration
             $table->foreign('Idusuario')->references('Idusuario')->on('users');
             $table->unsignedBigInteger('Idcliente');
             $table->foreign('Idcliente')->references('Idcliente')->on('clientes');
-            $table->unsignedBigInteger('Id_tipopago');
-            $table->foreign('Id_tipopago')->references('Id_tipopago')->on('tipo_pagos');
             $table->string('Estado');
             $table->datetime('Fecha');
             $table->decimal('Subtotal', 10,2);
