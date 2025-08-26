@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('Idusuario');
             $table->foreign('Idusuario')->references('Idusuario')->on('users');
             $table->unsignedBigInteger('Idcliente');
-            $table->foreign('Idcliente')->references('Idcliente')->on('clientes'); // Cambiado de 'clientes' a 'clientes' (consistencia)
+            $table->foreign('Idcliente')->references('Idcliente')->on('clientes');
             $table->string('Estado');
             $table->datetime('Fecha');
             $table->decimal('Subtotal', 10,2);
