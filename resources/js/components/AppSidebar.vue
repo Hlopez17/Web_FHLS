@@ -29,7 +29,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Usuarios',
-        href: route('usuario.index'), // 👈 Usando nombre de ruta
+        href: '/User', // 👈 Usando nombre de ruta -- el nombre de la ruta en routes es el que se usara xd 
         icon: UsersRound,
     },
 ];

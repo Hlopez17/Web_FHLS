@@ -18,7 +18,7 @@ Route::get('dashboard', function () {
 Route::middleware(['auth', 'verified'])->group(function(){
 Route::get('/Proveedor', [ProveedorController::class, 'index'])->name('Proveedor.Index');
 
-// Usuario
+// Ruta de Usuario
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/User', [UserController::class, 'index'])->name('User.index');
 });
