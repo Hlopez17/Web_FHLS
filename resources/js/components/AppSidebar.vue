@@ -33,6 +33,7 @@ const mainNavItems: NavItem[] = [
     icon: UsersRound,
 },
 
+
 ];
 
 const footerNavItems: NavItem[] = [
