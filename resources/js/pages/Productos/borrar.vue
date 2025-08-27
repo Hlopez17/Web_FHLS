@@ -7,12 +7,12 @@
         </div>
         
         <h2 class="text-xl font-semibold text-foreground text-center mb-2">
-          ¿Eliminar Proveedor?
+          ¿Eliminar Producto?
         </h2>
         
         <p class="text-muted-foreground text-center mb-6">
           ¿Estás seguro de que deseas eliminar al proveedor 
-          <span class="font-medium text-foreground">"{{ proveedor.Razon_social }}"</span>? 
+          <span class="font-medium text-foreground">"{{ producto.Nombre }}"</span>? 
           Esta acción no se puede deshacer.
         </p>
 
@@ -47,11 +47,11 @@ import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-vue-next';
-import type { Proveedor } from '@/types';
+import type { Producto,Unidadmedida, Categoria, Subcategoria} from '@/types';
 
 // Props: se recibe el proveedor que se va a eliminar
 const props = defineProps<{
-  proveedor: Proveedor;
+  producto: Producto;
 }>();
 
 // Emits: eventos personalizados que el componente puede emitir
@@ -68,14 +68,14 @@ const confirmDelete = async () => {
   processing.value = true;
   
   try {
-    await router.delete(`/proveedores/${props.proveedor.id}`, {
+    await router.delete(`/Producto/${props.producto.Idproducto}`, {
       preserveScroll: true,
       onSuccess: () => {
         emit('deleted');
         emit('close');
       },
       onError: (errors) => {
-        console.error('Error eliminando proveedor:', errors);
+        console.error('Error eliminando Producto:', errors);
         processing.value = false;
       },
       onFinish: () => {
@@ -83,7 +83,7 @@ const confirmDelete = async () => {
       }
     });
   } catch (error) {
-    console.error('Error eliminando proveedor:', error);
+    console.error('Error eliminando Producto:', error);
     processing.value = false;
   }
 };

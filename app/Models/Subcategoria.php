@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Subcategoria extends Model
 {
       // Nombre de la tabla 
-    protected $table = 'Subcategoria';
+    protected $table = 'subcategorias';
 
     //Se define como PrimaryKey y autoincremental gg
     protected $primaryKey = 'Idsubcat';

@@ -49,7 +49,7 @@ class Producto extends Model
         return $this->hasMany(Detalle_Mov::class, 'Idproducto','Idproducto');
       }
 
-      public function subcat()
+      public function subcategoria()
       {
          return $this->belongsTo(Subcategoria::class, 'Idsubcat','Idsubcat');
       }

@@ -63,4 +63,27 @@ export interface Producto {
     Estado:string;
     created_at: string;
     updated_at: string;
+    subcategoria?: Subcategoria; // relación cargada
+    unidadmedida?:Unidadmedida
 }
+
+//Datos que se cargan del Modelo, para Mostrar en la tabla
+export interface Categoria {
+    id: number;
+    Nombre_cat: string;
+}
+
+//Datos que se cargan del Modelo, para Mostrar en la tabla
+export interface Subcategoria {
+    id: number;
+    Nombre_subcat: string;
+    Idcategoria: number;
+    categoria?:Categoria;
+}
+
+//Datos que se cargan del Modelo, para Mostrar en la tabla
+export interface Unidadmedida {
+    id: number;
+    Nombre_Medida: string;
+}
+
