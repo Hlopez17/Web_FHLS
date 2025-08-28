@@ -75,86 +75,6 @@ const formatEstado = (estado: string | null) => {
 <!-- Título de la página -->
 <Head title="Usuarios"/>
 
-<<<<<<< HEAD
-      <div class="relative min-h-[100vh] flex-1 rounded-xl border border-border">
-        <Table>
-          <TableCaption>Lista de Usuarios</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Nombre</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Teléfono</TableHead>
-              <TableHead>Rol</TableHead>
-              <TableHead>Estado</TableHead>
-              <TableHead>Comision</TableHead>
-              <TableHead class="text-center">Acciones</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow v-for="user in users" :key="user.Idusuario">
-              <TableCell class="font-medium">
-                <div class="flex items-center gap-2">
-                  <User class="h-4 w-4 text-muted-foreground" />
-                  {{ user.name }} {{ user.Apellido || '' }}
-                </div>
-              </TableCell>
-              <TableCell>
-                <div class="flex items-center gap-2">
-                  <Mail class="h-4 w-4 text-muted-foreground" />
-                  {{ user.email }}
-                </div>
-              </TableCell>
-              <TableCell>
-                <div class="flex items-center gap-2">
-                  <Phone class="h-4 w-4 text-muted-foreground" />
-                  {{ user.Telefono || 'N/A' }}
-                </div>
-              </TableCell>
-              <TableCell>
-                <span class="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
-                  {{ getRoleName(user.Idrol) }}
-                </span>
-              </TableCell>
-              <TableCell>
-                <div class="flex items-center gap-2">
-                  <Mail class="h-4 w-4 text-muted-foreground" />
-                  {{ user.Comision }}
-                </div>
-              </TableCell>
-              <TableCell>
-                <span 
-                  :class="{
-                    'inline-flex items-center rounded-full px-2 py-1 text-xs font-medium': true,
-                    'bg-green-100 text-green-800': formatEstado(user.Estado) === 'Activo',
-                    'bg-gray-100 text-gray-800': formatEstado(user.Estado) === 'Inactivo'
-                  }"
-                >
-                  {{ formatEstado(user.Estado) }}
-                </span>
-              </TableCell>
-              <TableCell class="flex justify-center gap-2">
-                <Button 
-                  size="sm" 
-                  variant="outline"
-                  class="h-8 w-8 p-0"
-                  @click="editUser(user)"
-                >
-                  <Pencil class="h-4 w-4" />
-                </Button>
-                <Button 
-                  size="sm" 
-                  variant="outline"
-                  class="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
-                  @click="openDeleteModal(user)"
-                >
-                  <Trash class="h-4 w-4" />
-                </Button>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </div>
-=======
 <!-- Layout principal con sidebar -->
 <AppLayout>
   <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
@@ -168,7 +88,6 @@ const formatEstado = (estado: string | null) => {
       >
         <CirclePlus class="w-4 h-4 mr-1" /> Crear Usuario
       </Button>
->>>>>>> 13b3d461d8bc4249d6bb121107be16ea3c4b9c25
     </div>
 
     <!-- Tabla de usuarios -->
