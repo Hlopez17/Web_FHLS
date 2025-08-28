@@ -1,3 +1,4 @@
+
 <template>
   <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
     <div class="bg-background rounded-lg border border-border shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
@@ -17,7 +18,7 @@
                 v-model="form.name"
                 type="text"
                 class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                required
+                
                 :class="{ 'border-destructive': form.errors.name }"
               />
               <div v-if="form.errors.name" class="text-destructive text-xs mt-1">
@@ -50,7 +51,7 @@
                 v-model="form.email"
                 type="email"
                 class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                required
+              
                 :class="{ 'border-destructive': form.errors.email }"
               />
               <div v-if="form.errors.email" class="text-destructive text-xs mt-1">
@@ -67,7 +68,7 @@
                 v-model="form.password"
                 type="password"
                 class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                required
+                
                 :class="{ 'border-destructive': form.errors.password }"
               />
               <div v-if="form.errors.password" class="text-destructive text-xs mt-1">
@@ -101,7 +102,6 @@
                 class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                 :class="{ 'border-destructive': form.errors.Idrol }"
               >
-                <option value="">Seleccionar rol</option>
                 <option v-for="role in roles" :key="role.Idrol" :value="role.Idrol">
                   {{ role.nombre }}
                 </option>
@@ -174,7 +174,7 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3';
+import { useForm, router } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 
 // Props
@@ -185,7 +185,7 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'created'): void;
+  (e: 'created', msg:string): void;
 }>();
 
 // Formulario con datos iniciales vacíos
@@ -205,8 +205,12 @@ const submitForm = () => {
   form.post('/usuarios', {
     preserveScroll: true,
     onSuccess: () => {
-      emit('created');
+      emit('created', 'Usuario creado correctamente ✅');
       emit('close');
+
+       setTimeout(() => {
+        router.visit(window.location.href, { replace: true });
+      }, 1000);
     },
   });
 };

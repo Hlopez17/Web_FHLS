@@ -17,6 +17,7 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    protected $table = 'users';
     protected $primaryKey = 'Idusuario';
     public $incrementing = true;
 
@@ -31,7 +32,6 @@ class User extends Authenticatable
         'foto_perfil',
         'Idrol',
         'Comision',
-        
     ];
 
      public function rol()

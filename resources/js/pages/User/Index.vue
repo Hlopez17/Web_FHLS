@@ -25,10 +25,19 @@ const editingUser = ref<UserType | null>(null);
 const creatingUser = ref<boolean>(false);
 const deletingUser = ref<UserType | null>(null);
 
+// Mensajes flash locales
+const localFlash = ref<string | null>(null);
+
 // Función para abrir el modal de edición
 const editUser = (user: UserType) => {
   editingUser.value = user;
 };
+
+const onMessage = (msg: string) => {
+  localFlash.value = msg;
+  setTimeout(() => (localFlash.value = null), 3000);
+};
+
 
 // Función para abrir el modal de creación
 const openCreateModal = () => {
@@ -61,8 +70,17 @@ const formatEstado = (estado: string | null) => {
 
 <template>
 <Head title="Usuarios"/>
+
+
 <AppLayout>
  <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+
+
+<!-- Mensajes locales -->
+      <div v-if="localFlash" class="mb-2 p-3 rounded bg-green-100 text-green-800">
+        {{ localFlash }}
+      </div>
+
       <div class="flex">
         <Button 
           size="sm" 
@@ -152,7 +170,7 @@ const formatEstado = (estado: string | null) => {
       :user="editingUser" 
       :roles="roles"
       @close="editingUser = null"
-      @updated="refreshUsers"
+      @updated="onMessage"
     />
 
     <!-- Modal de creación -->
@@ -160,7 +178,7 @@ const formatEstado = (estado: string | null) => {
       v-if="creatingUser" 
       :roles="roles"
       @close="creatingUser = false"
-      @created="refreshUsers"
+      @created="onMessage"
     />
 
     <!-- Modal de eliminación -->
@@ -168,7 +186,7 @@ const formatEstado = (estado: string | null) => {
       v-if="deletingUser" 
       :user="deletingUser"
       @close="deletingUser = null"
-      @deleted="refreshUsers"
+      @deleted="onMessage"
     />
 </AppLayout>
 </template>
