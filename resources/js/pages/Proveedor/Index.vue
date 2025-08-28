@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/app/AppSidebarLayout.vue'; 
 import { type BreadcrumbItem, type SharedData } from '@/types';
-import { Head, usePage, Link, router } from '@inertiajs/vue3';
+import { Head, usePage, router } from '@inertiajs/vue3';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Pencil, Trash, CirclePlus } from 'lucide-vue-next';
@@ -11,43 +11,63 @@ import Editar from './editar.vue';
 import Crear from './crear.vue';
 import Borrar from './borrar.vue';
 
+// Props desde Laravel
 interface ProveedorPageProps extends SharedData {
   proveedors: Proveedor[];
 }
+
 const { props } = usePage<ProveedorPageProps>();
 const proveedors = computed(() => props.proveedors);
-const breadcrumbs: BreadcrumbItem[] = [{ title: 'Proveedor', href: '/Proveedor' }];
 
-// Variables para controlar los modales
+// Mensajes flash locales
+const localFlash = ref<string | null>(null);
+
+// Variables para los modales
 const editingProveedor = ref<Proveedor | null>(null);
 const creatingProveedor = ref<boolean>(false);
 const deletingProveedor = ref<Proveedor | null>(null);
 
-// Función para abrir el modal de edición
-const editProveedor = (proveedor: Proveedor) => {
-  editingProveedor.value = proveedor;
-};
+// Abrir modales
+const editProveedor = (proveedor: Proveedor) => { editingProveedor.value = proveedor; };
+const openCreateModal = () => { creatingProveedor.value = true; };
+const openDeleteModal = (proveedor: Proveedor) => { deletingProveedor.value = proveedor; };
 
-// Función para abrir el modal de creación
-const openCreateModal = () => {
-  creatingProveedor.value = true;
-};
-
-// Función para abrir el modal de eliminación
-const openDeleteModal = (proveedor: Proveedor) => {
-  deletingProveedor.value = proveedor;
-};
-
-// Función para refrescar los proveedores
+// Refrescar proveedores
 const refreshProveedors = () => {
   router.reload({ only: ['proveedors'] });
+};
+
+// Cuando se crea proveedor
+const onCreated = (msg: string) => {
+  localFlash.value = msg;
+  setTimeout(() => (localFlash.value = null), 3000);
+};
+
+// Cuando se edita proveedor
+const onUpdated = (msg: string) => {
+  localFlash.value = msg;
+  setTimeout(() => (localFlash.value = null), 3000);
+};
+
+// Cuando se elimina proveedor
+const onDeleted = (msg: string) => {
+  localFlash.value = msg;
+  setTimeout(() => (localFlash.value = null), 3000);
+  refreshProveedors();
 };
 </script>
 
 <template>
-<Head title="Proveedores"/>
-<AppLayout>
- <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+  <Head title="Proveedores"/>
+  <AppLayout>
+    <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+
+      <!-- Mensajes locales -->
+      <div v-if="localFlash" class="mb-2 p-3 rounded bg-green-100 text-green-800">
+        {{ localFlash }}
+      </div>
+
+      <!-- Botón Crear -->
       <div class="flex">
         <Button 
           size="sm" 
@@ -58,6 +78,7 @@ const refreshProveedors = () => {
         </Button>
       </div>
 
+      <!-- Tabla -->
       <div class="relative min-h-[100vh] flex-1 rounded-xl border border-border">
         <Table>
           <TableCaption>Lista de Proveedores</TableCaption>
@@ -71,7 +92,7 @@ const refreshProveedors = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow v-for="proveedor in proveedors" :key="proveedor.id">
+            <TableRow v-for="proveedor in proveedors" :key="proveedor.Idproveedor">
               <TableCell class="font-medium">{{ proveedor.Razon_social }}</TableCell>
               <TableCell>{{ proveedor.Telefono ?? 'N/A' }}</TableCell>
               <TableCell>{{ proveedor.Direccion }}</TableCell>
@@ -100,27 +121,25 @@ const refreshProveedors = () => {
       </div>
     </div>
 
-    <!-- Modal de edición -->
+    <!-- Modales -->
     <Editar 
       v-if="editingProveedor" 
       :proveedor="editingProveedor" 
       @close="editingProveedor = null"
-      @updated="refreshProveedors"
+      @updated="onUpdated" 
     />
 
-    <!-- Modal de creación -->
     <Crear 
       v-if="creatingProveedor" 
       @close="creatingProveedor = false"
-      @created="refreshProveedors"
+      @created="onCreated" 
     />
 
-    <!-- Modal de eliminación -->
     <Borrar 
       v-if="deletingProveedor" 
       :proveedor="deletingProveedor"
       @close="deletingProveedor = null"
-      @deleted="refreshProveedors"
+      @deleted="onDeleted"
     />
-</AppLayout>
+  </AppLayout>
 </template>
