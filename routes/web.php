@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\ProductoController;
 
+
 Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
@@ -30,10 +31,17 @@ Route::middleware(['auth', 'verified'])->group(function(){
 //prueba
 });
 
-//Productos
+// Productos
 Route::middleware(['auth', 'verified'])->group(function(){
-Route::get('/Producto', [ProductoController::class, 'index'])->name('Productos.Index');});
+    Route::get('/Producto', [ProductoController::class, 'index'])->name('Productos.Index');
 
+    // Rutas necesarias para crear/editar/eliminar
+    Route::get('/Producto/create', [ProductoController::class, 'create'])->name('Productos.create');
+    Route::post('/Producto', [ProductoController::class, 'store'])->name('Productos.store');
+    Route::get('/Producto/{producto}/edit', [ProductoController::class, 'edit'])->name('Productos.edit');
+    Route::put('/Producto/{producto}', [ProductoController::class, 'update'])->name('Productos.update');
+    Route::delete('/Producto/{producto}', [ProductoController::class, 'destroy'])->name('Productos.destroy');
+});
 
 // Route::get('/Proveedor/create', [ProveedorController::class, 'create'])->name('Proveedor.create');
 // Route::post('/Proveedor', [ProveedorController::class, 'store'])->name('Proveedor.store');

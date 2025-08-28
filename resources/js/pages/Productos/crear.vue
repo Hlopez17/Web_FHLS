@@ -305,7 +305,7 @@ const props = defineProps<{
   unidadmedidas:Unidadmedida[];
 
 }>();
-
+console.log('✅ Props recibidas:', props.subcategorias, props.unidadmedidas);
 // const props = defineProps<CrearProductoProps>();
 
 //
@@ -323,20 +323,27 @@ const emit = defineEmits<{
 
 // Formulario con datos iniciales vacíos
 const form = useForm({
-  //Aquí deben de ir los Campos de la Tabla Productos
-  Razon_social: '',
-  Telefono: '',
-  Direccion: '',
-  Correo: '',
+  Codigo_barra: '',
+  Nombre: '',
+  Precio_costo: '',
+  Precio_venta: '',
+  Precio_descuento: '',
+  Precio_Mayorista: '',
+  Id_Medida: '',     // este sí conecta con tu combobox
+  Idsubcat: '',      // este también conecta con tu combobox
+  Estado: '',        // activo/inactivo
+  foto: null,
+
 });
 
 // Función para enviar el formulario al backend
 const submitForm = () => {
-  form.post('/proveedores', {
-    preserveScroll: true, // Mantiene el scroll en su posición
+    console.log('📤 Datos que voy a enviar:', form);
+  form.post('/Producto', {
+    preserveScroll: true,
     onSuccess: () => {
-      emit('created'); // Se emite evento de creación
-      emit('close');   // Se cierra el modal
+      emit('created');
+      emit('close');
     },
   });
 };
