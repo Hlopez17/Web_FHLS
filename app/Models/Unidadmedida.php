@@ -9,7 +9,7 @@ class Unidadmedida extends Model
 {
      //
       // Nombre de la tabla 
-    protected $table = 'Unidad_medida';
+    protected $table = 'unidadmedidas';
 
     //Se define como PrimaryKey y autoincremental gg
     protected $primaryKey = 'Id_Medida';

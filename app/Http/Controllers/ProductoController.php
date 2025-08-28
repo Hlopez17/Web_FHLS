@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Producto;
+use App\Models\Categoria;
+use App\Models\Subcategoria;
+use App\Models\Unidadmedida;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ProductoController extends Controller
 {
@@ -12,7 +16,18 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        //
+       $productos = Producto::with(['subcategoria.categoria'])->get();
+
+        $subcategorias = Subcategoria::with('categoria')->get(['Idsubcat', 'Nombre_subcat', 'Idcategoria']);
+        $categorias = Categoria::all(['Idcategoria', 'Nombre_cat']);
+        $unidadmedidas= Unidadmedida::all(['Id_Medida','Nombre_Medida']);
+
+        return Inertia::render('Productos/Index', [
+            'productos' => $productos,
+            'subcategorias' => $subcategorias,
+            'categorias' => $categorias,
+            'unidadmedidas'=>$unidadmedidas,
+        ]);
     }
 
     /**

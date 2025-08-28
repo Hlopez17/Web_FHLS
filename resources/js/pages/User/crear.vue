@@ -16,7 +16,7 @@
                 id="name"
                 v-model="form.name"
                 type="text"
-                class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-background file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                 required
                 :class="{ 'border-destructive': form.errors.name }"
               />
@@ -33,7 +33,7 @@
                 id="apellido"
                 v-model="form.Apellido"
                 type="text"
-                class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-background file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                 :class="{ 'border-destructive': form.errors.Apellido }"
               />
               <div v-if="form.errors.Apellido" class="text-destructive text-xs mt-1">
@@ -49,7 +49,7 @@
                 id="email"
                 v-model="form.email"
                 type="email"
-                class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-background file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                 required
                 :class="{ 'border-destructive': form.errors.email }"
               />
@@ -66,7 +66,7 @@
                 id="password"
                 v-model="form.password"
                 type="password"
-                class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-background file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                 required
                 :class="{ 'border-destructive': form.errors.password }"
               />
@@ -83,7 +83,7 @@
                 id="telefono"
                 v-model="form.Telefono"
                 type="text"
-                class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-background file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                 :class="{ 'border-destructive': form.errors.Telefono }"
               />
               <div v-if="form.errors.Telefono" class="text-destructive text-xs mt-1">
@@ -92,24 +92,27 @@
             </div>
 
             <div>
-              <label for="Idrol" class="block text-sm font-medium text-foreground mb-2">
-                Rol
-              </label>
-              <select
-                id="Idrol"
-                v-model="form.Idrol"
-                class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                :class="{ 'border-destructive': form.errors.Idrol }"
-              >
-                <option value="">Seleccionar rol</option>
-                <option v-for="role in roles" :key="role.Idrol" :value="role.Idrol">
-                  {{ role.nombre }}
-                </option>
-              </select>
-              <div v-if="form.errors.Idrol" class="text-destructive text-xs mt-1">
-                {{ form.errors.Idrol }}
+                <label for="Idrol" class="block text-sm font-medium text-foreground mb-2">
+                  Rol
+                </label>
+                <select
+                  id="Idrol"
+                  v-model="form.Idrol"
+                  class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                  :class="{ 'border-destructive': form.errors.Idrol }"
+                >
+                  <option value="">Seleccionar rol</option>
+                  <option value="1">Admin</option>
+                  <option value="2">Gerente</option>
+                  <option value="3">Trabajador</option>
+                  <option value="4">Bodeguero</option>
+                </select>
+
+                <div v-if="form.errors.Idrol" class="text-destructive text-xs mt-1">
+                  {{ form.errors.Idrol }}
+                </div>
               </div>
-            </div>
+
 
             <div>
               <label for="Estado" class="block text-sm font-medium text-foreground mb-2">
@@ -118,7 +121,7 @@
               <select
                 id="Estado"
                 v-model="form.Estado"
-                class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                 :class="{ 'border-destructive': form.errors.Estado }"
               >
                 <option value="Activo">Activo</option>
@@ -140,7 +143,7 @@
                 step="0.01"
                 min="0"
                 max="100"
-                class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-background file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                 :class="{ 'border-destructive': form.errors.Comision }"
               />
               <div v-if="form.errors.Comision" class="text-destructive text-xs mt-1">

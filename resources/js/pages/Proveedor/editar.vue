@@ -95,6 +95,7 @@
                   id="correo"
                   v-model="form.Correo"
                   type="email"
+                  required
                   class="flex h-9 w-full rounded-md border border-input bg-transparent pl-9 pr-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                   :class="{ 'border-destructive': form.errors.Correo }"
                 />
@@ -143,7 +144,7 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import { Building, User, Phone, MapPin, Mail, X, Save, Loader2, AlertCircle } from 'lucide-vue-next';
 import type { Proveedor } from '@/types';
@@ -156,25 +157,36 @@ const props = defineProps<{
 // Emits: eventos personalizados que el componente puede emitir
 const emit = defineEmits<{
   (e: 'close'): void;    // Para cerrar el modal
-  (e: 'updated'): void;  // Para notificar que el proveedor fue actualizado
+  (e: 'updated', msg: string): void;  // Para notificar que el proveedor fue actualizado
 }>();
 
 // Formulario con datos iniciales del proveedor
 const form = useForm({
-  Razon_social: props.proveedor.Razon_social,
+  Razon_social: props.proveedor.Razon_social || '',
   Telefono: props.proveedor.Telefono || '',
-  Direccion: props.proveedor.Direccion,
-  Correo: props.proveedor.Correo,
+  Direccion: props.proveedor.Direccion || '',
+  Correo: props.proveedor.Correo || '',
 });
+
 
 // Función para enviar el formulario al backend
 const submitForm = () => {
-  form.put(`/proveedores/${props.proveedor.id}`, { // PUT para actualizar proveedor
-    preserveScroll: true, // Mantiene el scroll en su posición
+  form.put(`/proveedores/${props.proveedor.Idproveedor}`, {
+    preserveScroll: true,
+    onError: (errors) => {
+      console.log('Errores recibidos en editar:', errors);
+      // el modal sigue abierto y los errores se muestran en form.errors
+    },
     onSuccess: () => {
-      emit('updated'); // Se emite evento de actualización
-      emit('close');   // Se cierra el modal
+      emit('updated', 'Proveedor actualizado correctamente ✅');
+      form.reset();
+      emit('close');   // cerramos modal solo si no hubo error
+      //refrescar la vista de proveedor
+      setTimeout(() => {
+        router.visit(window.location.href, { replace: true });
+      }, 500);
     },
   });
 };
+
 </script>
