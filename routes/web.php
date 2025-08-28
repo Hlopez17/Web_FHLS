@@ -8,10 +8,8 @@ use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\ProductoController;
 
 
-<<<<<<< HEAD
-=======
-//interfaz de arranque
->>>>>>> 44ed33ad1a732e82e645cf9c3aa6f0c4989c7cab
+
+
 Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
@@ -41,12 +39,8 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/User', [UserController::class, 'index'])->name('User.index');
 });
 
-<<<<<<< HEAD
-//Productos
-=======
 
 //Productos
->>>>>>> 44ed33ad1a732e82e645cf9c3aa6f0c4989c7cab
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/Producto', [ProductoController::class, 'index'])->name('Producto.index');
     Route::get('/Producto/create', [ProductoController::class, 'create'])->name('Producto.create');
