@@ -12,26 +12,42 @@ import AppLogo from './AppLogo.vue';
 
 //Menu Lateral
 const mainNavItems: NavItem[] = [
+    //dashboar inicial
     {
         title: 'Dashboard',
         href: '/dashboard',
         icon: LayoutGrid,
     },
+    
+    //productos
     {
         title: 'Productos',
         href: '/Producto',
         icon: ShoppingBasket, // o cualquier otro ícono de lucide-vue-next
     },
+
+    //proveedores
     {
         title: 'Proveedores',
         href: '/Proveedor',//route('proveedor.index'), // 👈 referencia por nombre
         icon: Contact, // o cualquier otro ícono de lucide-vue-next
     },
+    
+    //usuarios
     {
-        title: 'Usuarios',
-        href: '/User',
-        icon: UsersRound,
+    title: 'Usuarios',
+    href: '/User', // 👈 Usando nombre de ruta -- el nombre de la ruta en routes es el que se usara xd 
+    icon: UsersRound,
     },
+
+    // Categorías
+    {
+    title: 'Categorías',
+    href: '/Categoria',
+    icon: LayoutGrid, // 👈 Representa categorías / grillas
+    },
+
+
 ];
 
 const footerNavItems: NavItem[] = [
