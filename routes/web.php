@@ -18,15 +18,25 @@ Route::get('dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-//Proveedor
-Route::middleware(['auth', 'verified'])->group(function(){
-    Route::get('/Proveedor', [ProveedorController::class, 'index'])->name('Proveedor.Index');
+
+// Proveedor
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Listar proveedores
+    Route::get('/Proveedor', [ProveedorController::class, 'index'])->name('Proveedor.index');
+    // Crear proveedor
+    Route::post('/proveedores', [ProveedorController::class, 'store'])->name('Proveedor.store');
+    // Actualizar proveedor
+    Route::put('/proveedores/{proveedor}', [ProveedorController::class, 'update'])->name('Proveedor.update');
+    // Eliminar proveedor
+    Route::delete('/proveedores/{proveedor}', [ProveedorController::class, 'destroy'])->name('Proveedor.destroy');
+
 });
 
 // Ruta de Usuario
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/User', [UserController::class, 'index'])->name('User.index');
 });
+
 
 // Ruta de Categorias
 Route::middleware(['auth', 'verified'])->group(function(){
@@ -39,6 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 // Route::get('/Proveedor/{employee}/edit', [ProveedorController::class, 'edit'])->name('Proveedor.edit');
 // Route::put('/Proveedor/{employee}', [ProveedorController::class, 'update'])->name('Proveedor.update');
 // Route::delete('/Proveedor/{employee}', [ProveedorController::class, 'destroy'])->name('Proveedor.destroy');
+
 
 
 require __DIR__.'/settings.php';
