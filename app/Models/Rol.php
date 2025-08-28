@@ -7,27 +7,31 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Rol extends Model
 {
-     // Nombre de la tabla 
+    use HasFactory;
+
+    // Nombre de la tabla en la base de datos
     protected $table = 'rols';
 
-    //Se define como PrimaryKey y autoincremental gg
+    // Clave primaria
     protected $primaryKey = 'Idrol';
-    public $incrementing = true;
-    //protected $keyType = 'int';
+    public $incrementing = true; // autoincremental
+    //protected $keyType = 'int'; // si quieres especificar tipo entero
 
-    // Campos que se pueden asignar de forma masiva
+    // Campos de la base de datos
+    // Idrol -> clave primaria
+    // nombre -> nombre del rol
+    // descripcion -> descripción del rol
     protected $fillable = [
         'nombre',
         'descripcion'
     ]; 
 
-   public function users()
+    /**
+     * Relación uno a muchos con usuarios
+     * Un rol puede tener muchos usuarios
+     */
+    public function users()
     {
         return $this->hasMany(User::class, 'Idrol', 'Idrol');
     }
-
 }
-
-
-
-

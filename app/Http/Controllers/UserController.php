@@ -10,8 +10,8 @@ use Inertia\Inertia;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
+    * Ruta para despues colocar en el controlador 
+    */
     public function index()
     {
         return Inertia::render('User/Index', [ // ← Cambiado a 'User/Index'
