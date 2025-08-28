@@ -39,7 +39,7 @@ export type BreadcrumbItemType = BreadcrumbItem;
 
 //Datos que se cargan del Modelo, para Mostrar en la tabla
 export interface Proveedor {
-    id: number;
+    Idproveedor: number;
     Razon_social:string;
     Telefono:string;
     Direccion:string;

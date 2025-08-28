@@ -9,6 +9,7 @@ class Categoria extends Model
 {
     //
       // Nombre de la tabla 
+
     protected $table = 'categorias';
 
     //Se define como PrimaryKey y autoincremental gg
@@ -19,6 +20,7 @@ class Categoria extends Model
     // Campos que se pueden asignar de forma masiva
     protected $fillable = [
         'Nombre_cat'
+        
     ]; 
 
    public function subcategoria()

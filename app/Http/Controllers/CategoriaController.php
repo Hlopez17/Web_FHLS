@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+
 
 class CategoriaController extends Controller
 {
@@ -12,7 +14,9 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Categoria/Index', [ // ← Cambiado a 'User/Index'
+            'categorias' => Categoria::all() // ← También cambiar la clave del modelo de la base de datos 
+        ]);
     }
 
     /**
