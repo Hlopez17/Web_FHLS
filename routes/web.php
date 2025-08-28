@@ -33,14 +33,12 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
 // Productos
 Route::middleware(['auth', 'verified'])->group(function(){
-    Route::get('/Producto', [ProductoController::class, 'index'])->name('Productos.Index');
-
-    // Rutas necesarias para crear/editar/eliminar
-    Route::get('/Producto/create', [ProductoController::class, 'create'])->name('Productos.create');
-    Route::post('/Producto', [ProductoController::class, 'store'])->name('Productos.store');
-    Route::get('/Producto/{producto}/edit', [ProductoController::class, 'edit'])->name('Productos.edit');
-    Route::put('/Producto/{producto}', [ProductoController::class, 'update'])->name('Productos.update');
-    Route::delete('/Producto/{producto}', [ProductoController::class, 'destroy'])->name('Productos.destroy');
+    Route::get('/Producto', [ProductoController::class, 'index'])->name('Producto.index');
+    Route::get('/Producto/create', [ProductoController::class, 'create'])->name('Producto.create');
+    Route::post('/Producto', [ProductoController::class, 'store'])->name('Producto.store');
+    Route::get('/Producto/{producto}/edit', [ProductoController::class, 'edit'])->name('Producto.edit');
+    Route::put('/Producto/{producto}', [ProductoController::class, 'update'])->name('Producto.update');
+    Route::delete('/Producto/{producto}', [ProductoController::class, 'destroy'])->name('Producto.destroy');
 });
 
 // Route::get('/Proveedor/create', [ProveedorController::class, 'create'])->name('Proveedor.create');

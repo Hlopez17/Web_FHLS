@@ -62,7 +62,7 @@ class ProductoController extends Controller
             'Precio_venta' => 'required|numeric|min:0',
             'Precio_descuento' => 'nullable|numeric|min:0',
             'Precio_Mayorista' => 'nullable|numeric|min:0',
-            'Estado' => 'required|in:0,1',
+            'Estado' => 'required|in:Activo,Inactivo',
         ]);
 
         // Manejo de la imagen (si existe)
@@ -85,7 +85,7 @@ class ProductoController extends Controller
             'Estado' => $request->Estado,
         ]);
 
-        return redirect()->route('Productos.index')
+        return redirect()->route('Producto.index')
             ->with('success', 'Producto creado correctamente.');
     }
 
@@ -103,7 +103,14 @@ class ProductoController extends Controller
      */
     public function edit(Producto $producto)
     {
-        //
+            $subcategorias = Subcategoria::with('categoria')->get(['Idsubcat', 'Nombre_subcat', 'Idcategoria']);
+    $unidadmedidas = Unidadmedida::all(['Id_Medida', 'Nombre_Medida']);
+
+    return Inertia::render('Productos/Edit', [
+        'producto' => $producto,
+        'subcategorias' => $subcategorias,
+        'unidadmedidas' => $unidadmedidas,
+    ]);
     }
 
     /**
@@ -121,7 +128,7 @@ class ProductoController extends Controller
             'Precio_venta' => 'required|numeric|min:0',
             'Precio_descuento' => 'nullable|numeric|min:0',
             'Precio_Mayorista' => 'nullable|numeric|min:0',
-            'Estado' => 'required|in:activo,inactivo',
+            'Estado' => 'required|in:Activo,Inactivo',
         ]);
 
         // Si sube nueva foto
@@ -143,7 +150,7 @@ class ProductoController extends Controller
             'Estado' => $request->Estado,
         ]);
 
-        return redirect()->route('productos.index')
+        return redirect()->route('Producto.index')
             ->with('success', 'Producto actualizado correctamente.');
     }
 
@@ -154,7 +161,7 @@ class ProductoController extends Controller
     {
         $producto->delete();
 
-        return redirect()->route('productos.index')
+        return redirect()->route('Producto.index')
             ->with('success', 'Producto eliminado correctamente.');
     }
 }

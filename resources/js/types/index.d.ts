@@ -50,6 +50,7 @@ export interface Proveedor {
 
 //Datos que se cargan del Modelo, para Mostrar en la tabla
 export interface Producto {
+    Idproducto: any;
     id: number;
     Idsubcat: number;
     Id_Medida: number;
