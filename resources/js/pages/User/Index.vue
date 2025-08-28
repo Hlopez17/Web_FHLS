@@ -26,14 +26,23 @@ const roles = computed(() => props.roles || []);
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Usuarios', href: '/usuarios' }];
 
 // Variables para controlar los modales
-const editingUser = ref<UserType | null>(null);  // Usuario que se está editando
-const creatingUser = ref<boolean>(false);        // Modal de creación abierto o cerrado
-const deletingUser = ref<UserType | null>(null); // Usuario que se quiere eliminar
+const editingUser = ref<UserType | null>(null);
+const creatingUser = ref<boolean>(false);
+const deletingUser = ref<UserType | null>(null);
+
+// Mensajes flash locales
+const localFlash = ref<string | null>(null);
 
 // Función para abrir el modal de edición
 const editUser = (user: UserType) => {
   editingUser.value = user;
 };
+
+const onMessage = (msg: string) => {
+  localFlash.value = msg;
+  setTimeout(() => (localFlash.value = null), 3000);
+};
+
 
 // Función para abrir el modal de creación
 const openCreateModal = () => {
@@ -77,18 +86,23 @@ const formatEstado = (estado: string | null) => {
 
 <!-- Layout principal con sidebar -->
 <AppLayout>
-  <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+ <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
 
-    <!-- Botón para abrir modal de creación de usuario -->
-    <div class="flex">
-      <Button
-        size="sm"
-        class="bg-indigo-600 hover:bg-indigo-700 text-white"
-        @click="openCreateModal"
-      >
-        <CirclePlus class="w-4 h-4 mr-1" /> Crear Usuario
-      </Button>
-    </div>
+
+<!-- Mensajes locales -->
+      <div v-if="localFlash" class="mb-2 p-3 rounded bg-green-100 text-green-800">
+        {{ localFlash }}
+      </div>
+
+      <div class="flex">
+        <Button 
+          size="sm" 
+          class="bg-indigo-600 hover:bg-indigo-700 text-white"
+          @click="openCreateModal"
+        >
+          <CirclePlus class="w-4 h-4 mr-1" /> Crear Usuario
+        </Button>
+      </div>
 
     <!-- Tabla de usuarios -->
     <div class="relative min-h-[100vh] flex-1 rounded-xl border border-border">
@@ -182,29 +196,29 @@ const formatEstado = (estado: string | null) => {
     </div>
   </div>
 
-  <!-- Modal de edición de usuario -->
-  <EditarUsuario
-    v-if="editingUser"
-    :user="editingUser"
-    :roles="roles"
-    @close="editingUser = null"
-    @updated="refreshUsers"
-  />
+    <!-- Modal de edición -->
+    <EditarUsuario 
+      v-if="editingUser" 
+      :user="editingUser" 
+      :roles="roles"
+      @close="editingUser = null"
+      @updated="onMessage"
+    />
 
-  <!-- Modal de creación de usuario -->
-  <CrearUsuario
-    v-if="creatingUser"
-    :roles="roles"
-    @close="creatingUser = false"
-    @created="refreshUsers"
-  />
+    <!-- Modal de creación -->
+    <CrearUsuario 
+      v-if="creatingUser" 
+      :roles="roles"
+      @close="creatingUser = false"
+      @created="onMessage"
+    />
 
-  <!-- Modal de eliminación de usuario -->
-  <BorrarUsuario
-    v-if="deletingUser"
-    :user="deletingUser"
-    @close="deletingUser = null"
-    @deleted="refreshUsers"
-  />
+    <!-- Modal de eliminación -->
+    <BorrarUsuario 
+      v-if="deletingUser" 
+      :user="deletingUser"
+      @close="deletingUser = null"
+      @deleted="onMessage"
+    />
 </AppLayout>
 </template>

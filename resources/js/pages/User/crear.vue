@@ -1,3 +1,4 @@
+
 <template>
   <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
     <div class="bg-background rounded-lg border border-border shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
@@ -92,26 +93,24 @@
             </div>
 
             <div>
-                <label for="Idrol" class="block text-sm font-medium text-foreground mb-2">
-                  Rol
-                </label>
-                <select
-                  id="Idrol"
-                  v-model="form.Idrol"
-                  class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                  :class="{ 'border-destructive': form.errors.Idrol }"
-                >
-                  <option value="">Seleccionar rol</option>
-                  <option value="1">Admin</option>
-                  <option value="2">Gerente</option>
-                  <option value="3">Trabajador</option>
-                  <option value="4">Bodeguero</option>
-                </select>
-
-                <div v-if="form.errors.Idrol" class="text-destructive text-xs mt-1">
-                  {{ form.errors.Idrol }}
-                </div>
+              <label for="Idrol" class="block text-sm font-medium text-foreground mb-2">
+                Rol
+              </label>
+              <select
+                id="Idrol"
+                v-model="form.Idrol"
+                class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                :class="{ 'border-destructive': form.errors.Idrol }"
+              >
+                <option value="">Seleccionar rol</option>
+                <option v-for="role in roles" :key="role.Idrol" :value="role.Idrol">
+                  {{ role.nombre }}
+                </option>
+              </select>
+              <div v-if="form.errors.Idrol" class="text-destructive text-xs mt-1">
+                {{ form.errors.Idrol }}
               </div>
+            </div>
 
 
             <div>
@@ -177,7 +176,7 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3';
+import { useForm, router } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 
 // Props
@@ -188,7 +187,7 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'created'): void;
+  (e: 'created', msg:string): void;
 }>();
 
 // Formulario con datos iniciales vacíos
@@ -208,8 +207,12 @@ const submitForm = () => {
   form.post('/usuarios', {
     preserveScroll: true,
     onSuccess: () => {
-      emit('created');
+      emit('created', 'Usuario creado correctamente ✅');
       emit('close');
+
+       setTimeout(() => {
+        router.visit(window.location.href, { replace: true });
+      }, 1000);
     },
   });
 };
