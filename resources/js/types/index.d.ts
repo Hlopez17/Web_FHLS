@@ -73,6 +73,7 @@ export interface Producto {
 export interface Categoria {
     id: number;
     Nombre_cat: string;
+    subcategoria?: Subcategoria[];
 }
 
 //Datos que se cargan del Modelo, para Mostrar en la tabla
@@ -85,7 +86,30 @@ export interface Subcategoria {
 
 //Datos que se cargan del Modelo, para Mostrar en la tabla
 export interface Unidadmedida {
-    id: number;
+    Id_Medida: number;
     Nombre_Medida: string;
 }
 
+//Datos que se cargan del Modelo, para Mostrar en la tabla
+export interface Rol {
+    Idrol: number;
+    nombre: string;
+    descripcion: string;
+}
+
+//Datos que se cargan del Modelo, para Mostrar en la tabla
+export interface Sucursal {
+    id: number;
+    Nombre_Sucursal: string;
+    Direccion: string;
+    Gerente: string;
+}
+
+//Datos que se cargan del Modelo, para Mostrar en la tabla
+export interface Bodega {
+    id: number;
+    Nombre_bodega: string;
+    Direccion: string;
+    Idsucursal: number;
+    sucursal?:Sucursal;
+}

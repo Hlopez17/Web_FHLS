@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\RolController;
 
 
 
@@ -57,6 +58,12 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/Categoria', [CategoriaController::class, 'index'])->name('Categoria.index');
 });
 
+// Ruta de Roles
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::get('/Rol', [RolController::class, 'index'])->name('Rol.index');
+    Route::resource('roles', RolController::class);
+
+});
 
 // Route::get('/Proveedor/create', [ProveedorController::class, 'create'])->name('Proveedor.create');
 // Route::post('/Proveedor', [ProveedorController::class, 'store'])->name('Proveedor.store');
