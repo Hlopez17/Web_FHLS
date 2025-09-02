@@ -6,9 +6,8 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
 //Iconos
-import { BookOpen, Folder, LayoutGrid, UsersRound, Contact, ShoppingBasket } from 'lucide-vue-next';
+import { BookOpen, Folder, LayoutGrid, UsersRound, Contact, ShoppingBasket, BookUser   } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
-
 
 //Menu Lateral
 const mainNavItems: NavItem[] = [
@@ -49,9 +48,16 @@ const mainNavItems: NavItem[] = [
 
     // Subcategorias
     {
-    title: 'Subcategoria',
-    href: '/Subcategoria',
-    icon: LayoutGrid, // 👈 Representa categorías / grillas
+        title: 'Subcategoria',
+        href: '/Subcategoria',
+        icon: LayoutGrid, // 👈 Representa categorías / grillas
+    },
+
+    // Roles
+    {
+        title: 'Roles',
+        href: '/Rol',
+        icon: BookUser, // 👈 Representa usuarios con rol
     },
 
 

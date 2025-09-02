@@ -53,31 +53,31 @@ export interface Proveedor {
 export interface Unidadmedida {
     Id_Medida: number;
     Nombre_Medida: string;
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 // Datos que se cargan del Modelo, para Mostrar en la tabla
 export interface Categoria {
-  Idcategoria: number;          // PK
-  Nombre_cat: string | null;
-  created_at: string | null;
-  updated_at: string | null;
+    Idcategoria: number;          // PK
+    Nombre_cat: string | null;
+    created_at: string | null;
+    updated_at: string | null;
 
-  subcategorias?: Subcategoria[];
+    subcategorias?: Subcategoria[];
 }
 
 // Datos que se cargan del Modelo, para Mostrar en la tabla
 export interface Subcategoria {
-  Idsubcat: number;              // PK
-  Idcategoria: number;           // FK a categorias
-  Nombre_subcat: string;
-  created_at: string | null;     // fecha de creación
-  updated_at: string | null;     // fecha de actualización
+    Idsubcat: number;              // PK
+    Idcategoria: number;           // FK a categorias
+    Nombre_subcat: string;
+    created_at: string | null;
+    updated_at: string | null;
 
-  // Relaciones opcionales
-  categoria?: Categoria;
-  productos?: Producto[];
+    // Relaciones opcionales
+    categoria?: Categoria;
+    productos?: Producto[];
 }
 
 // Datos que se cargan del Modelo, para Mostrar en la tabla
@@ -95,6 +95,36 @@ export interface Producto {
     Estado: string;
     created_at: string;
     updated_at: string;
+
     subcategoria?: Subcategoria;   // relación cargada
     unidadmedida?: Unidadmedida;   // relación cargada
+}
+
+// Datos que se cargan del Modelo, para Mostrar en la tabla
+export interface Rol {
+    Idrol: number;
+    nombre: string;
+    descripcion: string;
+}
+
+// Datos que se cargan del Modelo, para Mostrar en la tabla
+export interface Sucursal {
+    id: number;
+    Nombre_Sucursal: string;
+    Direccion: string;
+    Gerente: string;
+    created_at?: string;
+    updated_at?: string;
+}
+
+// Datos que se cargan del Modelo, para Mostrar en la tabla
+export interface Bodega {
+    id: number;
+    Nombre_bodega: string;
+    Direccion: string;
+    Idsucursal: number;
+    created_at?: string;
+    updated_at?: string;
+
+    sucursal?: Sucursal;
 }
