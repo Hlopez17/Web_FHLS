@@ -109,7 +109,7 @@ export interface Rol {
 
 // Datos que se cargan del Modelo, para Mostrar en la tabla
 export interface Sucursal {
-    id: number;
+    Idsucursal: number;
     Nombre_Sucursal: string;
     Direccion: string;
     Gerente: string;
@@ -119,7 +119,7 @@ export interface Sucursal {
 
 // Datos que se cargan del Modelo, para Mostrar en la tabla
 export interface Bodega {
-    id: number;
+    Idbodega: number;
     Nombre_bodega: string;
     Direccion: string;
     Idsucursal: number;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Unidadmedida;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class UnidadmedidaController extends Controller
 {
@@ -13,6 +14,9 @@ class UnidadmedidaController extends Controller
     public function index()
     {
         //
+        return Inertia::render('Unidadmedida/Index', [ // Pagina que carga
+            'unidadmedidas'=> Unidadmedida::all() // Tabla de la cual jala datos
+        ]);
     }
 
     /**

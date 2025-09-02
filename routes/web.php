@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\RolController;
+use App\Http\Controllers\UnidadmedidaController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -60,6 +61,12 @@ Route::middleware(['auth', 'verified'])->group(function(){
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/Rol', [RolController::class, 'index'])->name('Rol.index');
     Route::resource('roles', RolController::class);
+});
+
+// Medidas
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::get('/Unidadmedida', [UnidadmedidaController::class, 'index'])->name('Unidadmedida.index');
+    // Route::resource('Unidadmedidas', UnidadmedidaController::class);
 });
 
 // Extra
