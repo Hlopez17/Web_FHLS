@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
+use App\Models\Subcategoria; // ← Importar el modelo Subcategoria
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-
 
 class CategoriaController extends Controller
 {
@@ -14,8 +14,8 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Categoria/Index', [ // ← Cambiado a 'User/Index'
-            'categorias' => Categoria::all() // ← También cambiar la clave del modelo de la base de datos 
+        return Inertia::render('Categoria/Index', [
+            'categorias' => Categoria::with('subcategorias')->get() // ← Cargar subcategorías relacionadas
         ]);
     }
 
@@ -32,7 +32,14 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'Nombre_cat' => 'required|string|max:255',
+        ]);
+
+        Categoria::create($validated);
+
+        return redirect()->route('categorias.index')
+            ->with('success', 'Categoría creada exitosamente');
     }
 
     /**
@@ -56,7 +63,14 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, Categoria $categoria)
     {
-        //
+        $validated = $request->validate([
+            'Nombre_cat' => 'required|string|max:255',
+        ]);
+
+        $categoria->update($validated);
+
+        return redirect()->route('categorias.index')
+            ->with('success', 'Categoría actualizada exitosamente');
     }
 
     /**
@@ -64,6 +78,15 @@ class CategoriaController extends Controller
      */
     public function destroy(Categoria $categoria)
     {
-        //
+        // Verificar si tiene subcategorías antes de eliminar
+        if ($categoria->subcategorias()->count() > 0) {
+            return redirect()->route('categorias.index')
+                ->with('error', 'No se puede eliminar la categoría porque tiene subcategorías asociadas');
+        }
+
+        $categoria->delete();
+
+        return redirect()->route('categorias.index')
+            ->with('success', 'Categoría eliminada exitosamente');
     }
 }

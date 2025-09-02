@@ -7,21 +7,21 @@
         </div>
         
         <h2 class="text-xl font-semibold text-foreground text-center mb-2">
-          ¿Eliminar Categoría?
+          ¿Eliminar Subcategoría?
         </h2>
         
-        <div v-if="categoria.subcategorias && categoria.subcategorias.length > 0" class="bg-destructive/10 border border-destructive/20 rounded-md p-3 mb-4">
+        <div v-if="subcategoria.productos && subcategoria.productos.length > 0" class="bg-destructive/10 border border-destructive/20 rounded-md p-3 mb-4">
           <AlertCircle class="h-5 w-5 text-destructive inline-block mr-2" />
           <span class="text-destructive text-sm font-medium">No se puede eliminar</span>
           <p class="text-destructive text-xs mt-1">
-            Esta categoría tiene {{ categoria.subcategorias.length }} subcategoría(s) asociada(s). 
-            Debe eliminar primero las subcategorías antes de poder eliminar esta categoría.
+            Esta subcategoría tiene {{ subcategoria.productos.length }} producto(s) asociado(s). 
+            Debe eliminar primero los productos antes de poder eliminar esta subcategoría.
           </p>
         </div>
 
         <p v-else class="text-muted-foreground text-center mb-6">
-          ¿Estás seguro de que deseas eliminar la categoría 
-          <span class="font-medium text-foreground">"{{ categoria.Nombre_cat || 'Sin nombre' }}"</span>? 
+          ¿Estás seguro de que deseas eliminar la subcategoría 
+          <span class="font-medium text-foreground">"{{ subcategoria.Nombre_subcat || 'Sin nombre' }}"</span>? 
           Esta acción no se puede deshacer.
         </p>
 
@@ -40,7 +40,7 @@
             variant="destructive"
             @click="confirmDelete"
             class="px-6"
-            :disabled="processing || (categoria.subcategorias && categoria.subcategorias.length > 0)"
+            :disabled="processing || (subcategoria.productos && subcategoria.productos.length > 0)"
           >
             <span v-if="processing">Eliminando...</span>
             <span v-else>Eliminar</span>
@@ -56,11 +56,11 @@ import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import { Trash2, AlertCircle } from 'lucide-vue-next';
-import type { Categoria } from '@/types';
+import type { Subcategoria } from '@/types';
 
 // Props
 const props = defineProps<{
-  categoria: Categoria;
+  subcategoria: Subcategoria;
 }>();
 
 // Emits
@@ -74,22 +74,22 @@ const processing = ref(false);
 
 // Función para confirmar la eliminación
 const confirmDelete = async () => {
-  // Verificar si hay subcategorías asociadas
-  if (props.categoria.subcategorias && props.categoria.subcategorias.length > 0) {
+  // Verificar si hay productos asociados
+  if (props.subcategoria.productos && props.subcategoria.productos.length > 0) {
     return;
   }
 
   processing.value = true;
   
   try {
-    await router.delete(`/categorias/${props.categoria.Idcategoria}`, {
+    await router.delete(`/subcategorias/${props.subcategoria.Idsubcat}`, {
       preserveScroll: true,
       onSuccess: () => {
         emit('deleted');
         emit('close');
       },
       onError: (errors) => {
-        console.error('Error eliminando categoría:', errors);
+        console.error('Error eliminando subcategoría:', errors);
         processing.value = false;
       },
       onFinish: () => {
@@ -97,7 +97,7 @@ const confirmDelete = async () => {
       }
     });
   } catch (error) {
-    console.error('Error eliminando categoría:', error);
+    console.error('Error eliminando subcategoría:', error);
     processing.value = false;
   }
 };

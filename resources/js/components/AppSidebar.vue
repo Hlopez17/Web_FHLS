@@ -47,6 +47,13 @@ const mainNavItems: NavItem[] = [
     icon: LayoutGrid, // 👈 Representa categorías / grillas
     },
 
+    // Subcategorias
+    {
+    title: 'Subcategoria',
+    href: '/Subcategoria',
+    icon: LayoutGrid, // 👈 Representa categorías / grillas
+    },
+
 
 ];
 

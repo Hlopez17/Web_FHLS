@@ -28,7 +28,7 @@ export type AppPageProps<T extends Record<string, unknown> = Record<string, unkn
 export interface User {
     Idusuario: number;
     name: string;
-    Apellido:string,
+    Apellido: string;
     email: string;
     avatar?: string;
     email_verified_at: string | null;
@@ -38,54 +38,63 @@ export interface User {
 
 export type BreadcrumbItemType = BreadcrumbItem;
 
-//Datos que se cargan del Modelo, para Mostrar en la tabla
+// Datos que se cargan del Modelo, para Mostrar en la tabla
 export interface Proveedor {
     Idproveedor: number;
-    Razon_social:string;
-    Telefono:string;
-    Direccion:string;
-    Correo:string | null;
+    Razon_social: string;
+    Telefono: string;
+    Direccion: string;
+    Correo: string | null;
     created_at: string;
     updated_at: string;
 }
 
-//Datos que se cargan del Modelo, para Mostrar en la tabla
+// Datos que se cargan del Modelo, para Mostrar en la tabla
+export interface Unidadmedida {
+    Id_Medida: number;
+    Nombre_Medida: string;
+    created_at: string;
+    updated_at: string;
+}
+
+// Datos que se cargan del Modelo, para Mostrar en la tabla
+export interface Categoria {
+  Idcategoria: number;          // PK
+  Nombre_cat: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+
+  subcategorias?: Subcategoria[];
+}
+
+// Datos que se cargan del Modelo, para Mostrar en la tabla
+export interface Subcategoria {
+  Idsubcat: number;              // PK
+  Idcategoria: number;           // FK a categorias
+  Nombre_subcat: string;
+  created_at: string | null;     // fecha de creación
+  updated_at: string | null;     // fecha de actualización
+
+  // Relaciones opcionales
+  categoria?: Categoria;
+  productos?: Producto[];
+}
+
+// Datos que se cargan del Modelo, para Mostrar en la tabla
 export interface Producto {
-    Idproducto: any;
-    id: number;
+    Idproducto: number;
     Idsubcat: number;
     Id_Medida: number;
     Codigo_barra: string;
-    Nombre:string
-    foto:string
-    Precio_costo:number;
-    Precio_venta:number;
-    Precio_descuento:number;
-    Precio_Mayorista:number;
-    Estado:string;
+    Nombre: string;
+    foto: string;
+    Precio_costo: number;
+    Precio_venta: number;
+    Precio_descuento: number;
+    Precio_Mayorista: number;
+    Estado: string;
     created_at: string;
     updated_at: string;
-    subcategoria?: Subcategoria; // relación cargada
-    unidadmedida?:Unidadmedida
+    subcategoria?: Subcategoria;   // relación cargada
+    unidadmedida?: Unidadmedida;   // relación cargada
 }
-
-//Datos que se cargan del Modelo, para Mostrar en la tabla
-export interface Categoria {
-    id: number;
-    Nombre_cat: string;
-}
-
-//Datos que se cargan del Modelo, para Mostrar en la tabla
-export interface Subcategoria {
-    id: number;
-    Nombre_subcat: string;
-    Idcategoria: number;
-    categoria?:Categoria;
-}
-
-//Datos que se cargan del Modelo, para Mostrar en la tabla
-export interface Unidadmedida {
-    id: number;
-    Nombre_Medida: string;
-}
-

@@ -26,16 +26,16 @@
               </div>
             </div>
 
-            <div v-if="categoria.subcategoria && categoria.subcategoria.length > 0">
+            <div v-if="categoria.subcategorias && categoria.subcategorias.length > 0">
               <label class="block text-sm font-medium text-foreground mb-2">
                 Subcategorías asociadas
               </label>
               <div class="bg-muted rounded-md p-3">
                 <p class="text-sm text-muted-foreground mb-2">
-                  Esta categoría tiene {{ categoria.subcategoria.length }} subcategoría(s) asociada(s):
+                  Esta categoría tiene {{ categoria.subcategorias.length }} subcategoría(s) asociada(s):
                 </p>
                 <ul class="text-sm space-y-1">
-                  <li v-for="subcat in categoria.subcategoria" :key="subcat.Idsubcat" class="flex items-center">
+                  <li v-for="subcat in categoria.subcategorias" :key="subcat.Idsubcat" class="flex items-center">
                     • {{ subcat.Nombre_subcat }}
                   </li>
                 </ul>

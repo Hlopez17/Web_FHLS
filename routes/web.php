@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\SubcategoriaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -55,6 +56,11 @@ Route::middleware(['auth', 'verified'])->group(function(){
 // Ruta de Categorias
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/Categoria', [CategoriaController::class, 'index'])->name('Categoria.index');
+});
+
+//Ruta Subcategoria
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::get('/Subcategoria', [SubcategoriaController::class, 'index'])->name('Subcategoria.index');
 });
 
 
