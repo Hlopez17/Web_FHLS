@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
+
 
 class User extends Authenticatable
 {
@@ -32,7 +34,19 @@ class User extends Authenticatable
         'foto_perfil',
         'Idrol',
         'Comision',
+        'foto_perfil'
     ];
+
+    protected $appends = ['profile_image_url'];
+
+    // Agregar este accessor para obtener la URL completa
+    public function getProfileImageUrlAttribute()
+    {
+        return $this->foto_perfil 
+            ? Storage::disk('public')->url($this->foto_perfil)
+            : null;
+    }
+
 
      public function rol()
     {
