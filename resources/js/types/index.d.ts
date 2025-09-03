@@ -30,11 +30,13 @@ export interface User {
     name: string;
     Apellido: string;
     email: string;
-    avatar?: string;
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    foto_perfil?: string; // ← Agregar este campo
+    profile_image_url: string | null; // ← Este ya lo tienes
 }
+
 
 export type BreadcrumbItemType = BreadcrumbItem;
 

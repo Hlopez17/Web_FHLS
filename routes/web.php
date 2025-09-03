@@ -37,6 +37,12 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::resource('usuarios', UserController::class);
 });
 
+
+// Subida de imagen de perfil
+Route::post('/profile/image', [UserController::class, 'updateProfileImage'])
+    ->name('profile.image.update')
+    ->middleware('auth');
+
 // Productos
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/Producto', [ProductoController::class, 'index'])->name('Producto.index');

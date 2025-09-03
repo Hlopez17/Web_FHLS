@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Rol;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Storage; // para el almacenamiento de la imagen 
 
 class UserController extends Controller
 {
@@ -20,6 +20,45 @@ class UserController extends Controller
             'roles' => Rol::all() // Proporcionar los roles para cargarlos en el select
         ]);
     }
+
+    // funcion para la subida de las imagenes
+    public function updateProfileImage(Request $request)
+{
+    $user = auth()->user();
+
+    // Validación de la imagen
+    $validated = $request->validate([
+        'profile_image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+    ], [
+        'profile_image.required' => 'Debes seleccionar una imagen.',
+        'profile_image.image' => 'El archivo debe ser una imagen.',
+        'profile_image.mimes' => 'La imagen debe ser de tipo jpeg, png, jpg, gif o webp.',
+        'profile_image.max' => 'La imagen no puede superar los 2MB.',
+    ]);
+
+    // Borrar imagen previa si existe
+    if ($user->foto_perfil && Storage::disk('public')->exists($user->foto_perfil)) {
+        Storage::disk('public')->delete($user->foto_perfil);
+    }
+
+    // Guardar nueva imagen en storage/app/public/users
+    $path = $request->file('profile_image')->store('users', 'public');
+
+    // Actualizar usuario
+    $user->update([
+        'foto_perfil' => $path,
+    ]);
+
+    // Recargar el usuario para obtener la URL actualizada
+    $user->refresh();
+
+    return back()->with([
+        'success' => 'Imagen de perfil actualizada ✅',
+        'profile_image_url' => $user->profile_image_url,
+    ]);
+}
+
+
 
     /**
      * Show the form for creating a new resource.
