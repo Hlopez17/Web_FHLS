@@ -60,13 +60,21 @@ Route::middleware(['auth', 'verified'])->group(function(){
 // Roles
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/Rol', [RolController::class, 'index'])->name('Rol.index');
-    Route::resource('roles', RolController::class);
+    Route::get('/Rol/create', [RolController::class, 'create'])->name('Rol.create');
+    Route::post('/Rol', [RolController::class, 'store'])->name('Rol.store');
+    Route::get('/Rol/{rol}/edit', [RolController::class, 'edit'])->name('Rol.edit');
+    Route::put('/Rol/{rol}', [RolController::class, 'update'])->name('Rol.update');
+    Route::delete('/Rol/{rol}', [RolController::class, 'destroy'])->name('Rol.destroy');
 });
 
 // Medidas
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/Unidadmedida', [UnidadmedidaController::class, 'index'])->name('Unidadmedida.index');
-    // Route::resource('Unidadmedidas', UnidadmedidaController::class);
+    Route::get('/Unidadmedida/create', [UnidadmedidaController::class, 'create'])->name('Unidadmedida.create');
+    Route::post('/Unidadmedida', [UnidadmedidaController::class, 'store'])->name('Unidadmedida.store');
+    Route::get('/Unidadmedida/{unidadmedida}/edit', [UnidadmedidaController::class, 'edit'])->name('Unidadmedida.edit');
+    Route::put('/Unidadmedida/{unidadmedida}', [UnidadmedidaController::class, 'update'])->name('Unidadmedida.update');
+    Route::delete('/Unidadmedida/{unidadmedida}', [UnidadmedidaController::class, 'destroy'])->name('Unidadmedida.destroy');
 });
 
 // Extra
