@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sucursal;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SucursalController extends Controller
 {
@@ -13,6 +14,9 @@ class SucursalController extends Controller
     public function index()
     {
         //
+        return Inertia::render('Sucursal/Index', [
+            'sucursals' => Sucursal::with('bodegas')->get() // ← Cargar subcategorías relacionadas
+        ]);
     }
 
     /**

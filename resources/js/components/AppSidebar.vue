@@ -6,7 +6,8 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
 //Iconos
-import { BookOpen, Folder, LayoutGrid,Weight , UsersRound, Contact, ShoppingBasket, BookUser   } from 'lucide-vue-next';
+import { BookOpen, Folder, LayoutGrid, Weight , UsersRound, Contact, ShoppingBasket, 
+    BookUser, MapPinHouse, Store     } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 //Menu Lateral
@@ -67,6 +68,19 @@ const mainNavItems: NavItem[] = [
         icon: Weight, //
     },
 
+    // Sucursal
+    {
+        title: 'Sucursales',
+        href: '/Sucursal',
+        icon: MapPinHouse , //
+    },
+
+    // Bodega
+    {
+        title: 'Bodega',
+        href: '/Bodega',
+        icon: Store  , //
+    },
 
 ];
 

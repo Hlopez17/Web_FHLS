@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Sucursal extends Model
 {
   // Nombre de la tabla 
-    protected $table = 'Sucursal';
+    protected $table = 'sucursals';
 
     //Se define como PrimaryKey y autoincremental gg
     protected $primaryKey = 'Idsucursal';
@@ -27,7 +27,7 @@ class Sucursal extends Model
 //         return $this->belongsTo(User::class, 'Gerente', 'Idusuario');
 //     }
 
-    public function bodega()
+    public function bodegas()
     {
        return $this->hasMany(Bodega::class, 'Idsucursal', 'Idsucursal');
     } 

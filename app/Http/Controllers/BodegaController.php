@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bodega;
+use App\Models\Sucursal;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class BodegaController extends Controller
 {
@@ -13,6 +15,10 @@ class BodegaController extends Controller
     public function index()
     {
         //
+        return Inertia::render('Bodega/Index', [
+            'bodegas' => Bodega::all(),
+            'sucursals' => Sucursal::all() // ← Agregar las categorías aquí
+        ]);
     }
 
     /**

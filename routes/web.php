@@ -9,6 +9,8 @@ use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UnidadmedidaController;
+use App\Http\Controllers\SucursalController;
+use App\Http\Controllers\BodegaController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -81,6 +83,18 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/Unidadmedida/{unidadmedida}/edit', [UnidadmedidaController::class, 'edit'])->name('Unidadmedida.edit');
     Route::put('/Unidadmedida/{unidadmedida}', [UnidadmedidaController::class, 'update'])->name('Unidadmedida.update');
     Route::delete('/Unidadmedida/{unidadmedida}', [UnidadmedidaController::class, 'destroy'])->name('Unidadmedida.destroy');
+});
+
+// Sucursales
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::get('/Sucursal', [SucursalController::class, 'index'])->name('Sucursal.index');
+    Route::resource('Sucursal', SucursalController::class);
+});
+
+// Bodegas
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::get('/Bodega', [BodegaController::class, 'index'])->name('Bodega.index');
+    Route::resource('Bodega', BodegaController::class);
 });
 
 // Extra

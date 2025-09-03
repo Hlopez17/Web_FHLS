@@ -191,7 +191,7 @@
                       disabled:cursor-not-allowed disabled:opacity-50"
                 :class="{ 'border-destructive': form.errors.Idsubcat }"
               >
-                <option value="">Seleccionar Medida</option>
+                <option value="">Seleccionar Subcategoria</option>
                 <option 
                   v-for="subcategoria in props.subcategorias" 
                   :key="subcategoria.Idsubcat" 

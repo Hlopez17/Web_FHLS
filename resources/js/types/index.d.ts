@@ -117,6 +117,8 @@ export interface Sucursal {
     Gerente: string;
     created_at?: string;
     updated_at?: string;
+
+    bodega?:Bodega[];
 }
 
 // Datos que se cargan del Modelo, para Mostrar en la tabla
@@ -129,4 +131,13 @@ export interface Bodega {
     updated_at?: string;
 
     sucursal?: Sucursal;
+    inventario:Inventario[];
+}
+
+// Datos que se cargan del Modelo, para Mostrar en la tabla
+export interface Inventario {
+    Id_inventario: number;
+    Idbodega: number;
+
+    bodega?:Bodega;
 }
