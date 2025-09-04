@@ -16,9 +16,11 @@ class BodegaController extends Controller
     {
         //
         return Inertia::render('Bodega/Index', [
-            'bodegas' => Bodega::all(),
-            'sucursals' => Sucursal::all() // ← Agregar las categorías aquí
-        ]);
+        
+        'bodegas'   => Bodega::with('sucursal')->get(),
+        
+        'sucursals' => Sucursal::all(),
+    ]);
     }
 
     /**
