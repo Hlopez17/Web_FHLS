@@ -11,14 +11,36 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'close'): void;
   (e: 'deleted'): void;
+  (e: 'error'): void;
 }>();
 
+// Función para manejar éxito
+const handleSuccess = () => {
+  // Emitir evento de eliminación exitosa
+  emit('deleted');
+  // Cerrar el modal inmediatamente
+  emit('close');
+        setTimeout(() => {
+        router.visit(window.location.href, { replace: true });
+      }, 3000);
+};
+
+// Función para manejar errores
+const handleError = (errors: any) => {
+  console.log('Errores al eliminar:', errors);
+  
+  // Emitir evento de error
+  emit('error');
+  // Cerrar el modal inmediatamente
+  emit('close');
+};
+
+// Función para enviar el formulario al backend
 const deleteCliente = () => {
-  router.delete(`/clientes/${props.cliente.Idcliente}`, {
-    onSuccess: () => {
-      emit('deleted');
-      emit('close');
-    }
+  router.delete(`/Cliente/${props.cliente.Idcliente}`, {
+    preserveScroll: true,
+    onSuccess: handleSuccess,
+    onError: handleError,
   });
 };
 </script>

@@ -96,7 +96,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Clientes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/Cliente', [ClienteController::class, 'index'])->name('Cliente.index');
-    Route::resource('Cliente', ClienteController::class);
+    Route::get('/Cliente/create', [ClienteController::class, 'create'])->name('Cliente.create');
+    Route::post('/Cliente', [ClienteController::class, 'store'])->name('Cliente.store');
+    Route::get('/Cliente/{cliente}/edit', [ClienteController::class, 'edit'])->name('Cliente.edit');
+    Route::put('/Cliente/{cliente}', [ClienteController::class, 'update'])->name('Cliente.update');
+    Route::delete('/Cliente/{cliente}', [ClienteController::class, 'destroy'])->name('Cliente.destroy');
 });
 
 // Extra

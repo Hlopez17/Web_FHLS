@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Cuentas_cobrar extends Model
 {
      // Nombre de la tabla 
-    protected $table = 'Cuentas_cobrar';
+    protected $table = 'cuentas_cobrars';
 
     //Se define como PrimaryKey y autoincremental gg
     protected $primaryKey = 'Id_cuentacobrar';
