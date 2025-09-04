@@ -17,12 +17,32 @@ const emit = defineEmits<{
 
 const form = ref({ ...props.cliente });
 
+// Función para manejar éxito
+const handleSuccess = () => {
+  // Emitir evento de actualización exitosa
+  emit('updated');
+  // Cerrar el modal inmediatamente
+  emit('close');
+        setTimeout(() => {
+        router.visit(window.location.href, { replace: true });
+      }, 3000);
+};
+
+// Función para manejar errores
+const handleError = (errors: any) => {
+  console.log('Errores del formulario:', errors);
+  
+  // Mostrar mensaje de error general si hay errores
+  if (Object.keys(errors).length > 0) {
+  }
+};
+
+// Función para enviar el formulario al backend
 const updateCliente = () => {
-  router.put(`/clientes/${form.value.Idcliente}`, form.value, {
-    onSuccess: () => {
-      emit('updated');
-      emit('close');
-    }
+  router.put(`/Cliente/${form.value.Idcliente}`, form.value, {
+    preserveScroll: true,
+    onSuccess: handleSuccess,
+    onError: handleError,
   });
 };
 </script>

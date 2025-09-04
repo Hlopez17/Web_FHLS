@@ -20,12 +20,34 @@ const form = ref({
   Saldocredito: 0
 });
 
-const createCliente = () => {
-  router.post('/clientes', form.value, {
-    onSuccess: () => {
+// Función para manejar éxito
+const handleSuccess = () => {
+      // Emitir evento de creación exitosa
       emit('created');
+      // Cerrar el modal inmediatamente
       emit('close');
-    }
+      setTimeout(() => {
+        router.visit(window.location.href, { replace: true });
+      }, 3000);
+};
+
+// Función para manejar errores
+const handleError = (errors: any) => {
+  console.log('Errores del formulario:', errors);
+  
+  // Mostrar mensaje de error general si hay errores
+  if (Object.keys(errors).length > 0) {
+    // Puedes emitir un evento de error si necesitas mostrar notificación de error
+    // emit('error', 'Error al crear el cliente. Revise los campos.');
+  }
+};
+
+// Función para enviar el formulario al backend
+const createCliente = () => {
+  router.post(route('Cliente.store'), form.value, {
+    preserveScroll: true,
+    onSuccess: handleSuccess,
+    onError: handleError,
   });
 };
 </script>
@@ -66,13 +88,13 @@ const createCliente = () => {
         </div>
         <div>
           <label class="text-sm font-medium flex items-center gap-1">
-            <CreditCard class="w-4 h-4" /> Límite Crédito
+            <CreditCard class="w-4 w-4" /> Límite Crédito
           </label>
           <Input v-model="form.Limitecredito" type="number" placeholder="0.00" />
         </div>
         <div>
           <label class="text-sm font-medium flex items-center gap-1">
-            <CreditCard class="w-4 h-4" /> Saldo Crédito
+            <CreditCard class="w-4 w-4" /> Saldo Crédito
           </label>
           <Input v-model="form.Saldocredito" type="number" placeholder="0.00" />
         </div>
