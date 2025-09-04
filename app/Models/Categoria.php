@@ -29,4 +29,9 @@ class Categoria extends Model
     {
         return $this->hasMany(Subcategoria::class, 'Idcategoria', 'Idcategoria');
     }
+    public function getRouteKeyName()
+    {
+       return 'Idcategoria';
+    }
+
 }

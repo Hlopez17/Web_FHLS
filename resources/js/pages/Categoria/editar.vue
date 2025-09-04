@@ -65,12 +65,27 @@
       </div>
     </div>
   </div>
+
+  <!-- Toast en la parte superior derecha -->
+  <Transition name="fade">
+    <div
+      v-if="showToast"
+      class="fixed top-6 right-6 z-50 px-4 py-2 rounded shadow-lg text-white text-sm"
+      :class="{
+        'bg-green-600': toastType === 'success',
+        'bg-red-600': toastType === 'error'
+      }"
+    >
+      {{ toastMessage }}
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import type { Categoria } from '@/types';
+import { ref } from 'vue';
 
 // Props
 const props = defineProps<{
@@ -80,8 +95,22 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'updated'): void;
+  (e: 'updated', msg:string, type:any): void;
 }>();
+
+// Estado del toast
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastType = ref<'success' | 'error'>('success');
+
+const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+  toastMessage.value = message;
+  toastType.value = type;
+  showToast.value = true;
+  setTimeout(() => {
+    showToast.value = false;
+  }, 3000);
+};
 
 // Formulario con datos iniciales de la categoría
 const form = useForm({
@@ -90,12 +119,18 @@ const form = useForm({
 
 // Función para enviar el formulario al backend
 const submitForm = () => {
-  form.put(`/categorias/${props.categoria.Idcategoria}`, {
+  form.put(`/categoria/${props.categoria.Idcategoria}`, {
     preserveScroll: true,
     onSuccess: () => {
-      emit('updated');
-      emit('close');
+      emit('updated','Categoría actualizada correctamente', 'success')
+      emit('close')
+      setTimeout(() => {
+        router.visit(window.location.href, { replace: true });
+      }, 1000);
     },
+    onError: () => {
+      showNotification('Error al actualizar la categoría ❌', 'error');
+    }
   });
 };
 </script>

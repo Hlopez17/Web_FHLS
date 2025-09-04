@@ -33,16 +33,23 @@ class SubcategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'Nombre_subcat' => 'required|string|max:255',
-            'Idcategoria' => 'required|integer|exists:categorias,Idcategoria'
-        ]);
+    $validated = $request->validate([
+        'Nombre_subcat' => [
+            'required',
+            'string',
+            'max:255',
+            'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/u',
+            'unique:subcategorias,Nombre_subcat',
+        ],
+        'Idcategoria' => 'required|integer|exists:categorias,Idcategoria',
+    ]);
 
-        Subcategoria::create($validated);
+    Subcategoria::create($validated);
 
-        return redirect()->route('subcategorias.index')
-            ->with('success', 'Subcategoría creada exitosamente');
+    return redirect()->route('Subcategoria.index')
+        ->with('success', 'Subcategoría creada exitosamente');
     }
+
 
     /**
      * Display the specified resource.
@@ -65,16 +72,23 @@ class SubcategoriaController extends Controller
      */
     public function update(Request $request, Subcategoria $subcategoria)
     {
-        $validated = $request->validate([
-            'Nombre_subcat' => 'required|string|max:255',
-            'Idcategoria' => 'required|integer|exists:categorias,Idcategoria'
-        ]);
+    $validated = $request->validate([
+        'Nombre_subcat' => [
+            'required',
+            'string',
+            'max:255',
+            'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/u',
+            'unique:subcategorias,Nombre_subcat,' . $subcategoria->Idsubcat . ',Idsubcat',
+        ],
+        'Idcategoria' => 'required|integer|exists:categorias,Idcategoria',
+    ]);
 
-        $subcategoria->update($validated);
+    $subcategoria->update($validated);
 
-        return redirect()->route('subcategorias.index')
-            ->with('success', 'Subcategoría actualizada exitosamente');
+    return redirect()->route('Subcategoria.index')
+        ->with('success', 'Subcategoría actualizada exitosamente');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -83,7 +97,7 @@ class SubcategoriaController extends Controller
     {
         $subcategoria->delete();
 
-        return redirect()->route('subcategorias.index')
+        return redirect()->route('Subcategoria.index')
             ->with('success', 'Subcategoría eliminada exitosamente');
     }
 }

@@ -5,9 +5,10 @@
         <h2 class="text-xl font-semibold text-foreground mb-4">
           Crear Nueva Subcategoría
         </h2>
-        
+
         <form @submit.prevent="submitForm">
           <div class="space-y-4">
+            <!-- Nombre -->
             <div>
               <label for="Nombre_subcat" class="block text-sm font-medium text-foreground mb-2">
                 Nombre de la Subcategoría *
@@ -26,6 +27,7 @@
               </div>
             </div>
 
+            <!-- Categoría -->
             <div>
               <label for="Idcategoria" class="block text-sm font-medium text-foreground mb-2">
                 Categoría *
@@ -48,20 +50,12 @@
             </div>
           </div>
 
+          <!-- Botones -->
           <div class="mt-6 flex justify-end space-x-2">
-            <Button
-              type="button"
-              variant="outline"
-              @click="$emit('close')"
-              class="px-4"
-            >
+            <Button type="button" variant="outline" @click="$emit('close')" class="px-4">
               Cancelar
             </Button>
-            <Button
-              type="submit"
-              :disabled="form.processing"
-              class="px-4"
-            >
+            <Button type="submit" :disabled="form.processing" class="px-4">
               <span v-if="form.processing">Creando...</span>
               <span v-else>Crear Subcategoría</span>
             </Button>
@@ -70,12 +64,27 @@
       </div>
     </div>
   </div>
+
+  <!-- Toast superior derecho -->
+  <Transition name="fade">
+    <div
+      v-if="showToast"
+      class="fixed top-6 right-6 z-50 px-4 py-2 rounded shadow-lg text-white text-sm"
+      :class="{
+        'bg-green-600': toastType === 'success',
+        'bg-red-600': toastType === 'error'
+      }"
+    >
+      {{ toastMessage }}
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import type { Categoria } from '@/types';
+import { ref } from 'vue';
 
 // Props
 const props = defineProps<{
@@ -85,30 +94,49 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'created'): void;
+  (e: 'created', msg:string, type:any): void;
 }>();
 
-// Formulario con datos iniciales vacíos
+// Formulario
 const form = useForm({
   Nombre_subcat: '',
   Idcategoria: '' as string | number,
 });
 
-// Función para enviar el formulario al backend
+// Toast
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastType = ref<'success' | 'error'>('success');
+
+const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+  toastMessage.value = message;
+  toastType.value = type;
+  showToast.value = true;
+  setTimeout(() => {
+    showToast.value = false;
+  }, 3000);
+};
+
+// Envío de formulario
 const submitForm = () => {
-  // Convertir Idcategoria a número (o null si está vacío)
   const formData = {
     Nombre_subcat: form.Nombre_subcat,
     Idcategoria: form.Idcategoria === '' ? null : Number(form.Idcategoria)
   };
-  
-  form.post('/subcategorias', {
+
+  form.post('/Subcategoria', {
     data: formData,
     preserveScroll: true,
     onSuccess: () => {
-      emit('created');
+      emit('created', 'Subcategoría creada exitosamente!', 'success');
       emit('close');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     },
+    onError: () => {
+      showNotification('Error al crear la subcategoría ❌', 'error');
+    }
   });
 };
 </script>

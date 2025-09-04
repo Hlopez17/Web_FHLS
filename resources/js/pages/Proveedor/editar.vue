@@ -3,137 +3,108 @@
   <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
     <div class="bg-background rounded-lg border border-border shadow-lg w-full max-w-md">
       <div class="p-6">
-        <!-- Título del modal con icono -->
+        <!-- Título -->
         <div class="flex items-center mb-4">
           <Building class="h-5 w-5 mr-2 text-primary" />
-          <h2 class="text-xl font-semibold text-foreground">
-            Editar Proveedor
-          </h2>
+          <h2 class="text-xl font-semibold text-foreground">Editar Proveedor</h2>
         </div>
-        
-        <!-- Formulario de edición -->
+
+        <!-- Formulario -->
         <form @submit.prevent="submitForm">
           <div class="space-y-4">
-            <!-- Campo Razón Social -->
+            <!-- Razón Social -->
             <div>
               <label for="razon_social" class="flex items-center text-sm font-medium text-foreground mb-2">
-                <User class="h-4 w-4 mr-1" />
-                Razón Social *
+                <User class="h-4 w-4 mr-1" /> Razón Social *
               </label>
               <div class="relative">
                 <input
                   id="razon_social"
                   v-model="form.Razon_social"
                   type="text"
-                  class="flex h-9 w-full rounded-md border border-input bg-transparent pl-9 pr-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                  class="flex h-9 w-full rounded-md border border-input bg-transparent pl-9 pr-3 py-1 text-sm"
                   required
                   :class="{ 'border-destructive': form.errors.Razon_social }"
                 />
                 <User class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               </div>
-              <!-- Mensaje de error para Razón Social -->
               <div v-if="form.errors.Razon_social" class="text-destructive text-xs mt-1 flex items-center">
-                <AlertCircle class="h-3 w-3 mr-1" />
-                {{ form.errors.Razon_social }}
+                <AlertCircle class="h-3 w-3 mr-1" /> {{ form.errors.Razon_social }}
               </div>
             </div>
 
-            <!-- Campo Teléfono -->
+            <!-- Teléfono -->
             <div>
               <label for="telefono" class="flex items-center text-sm font-medium text-foreground mb-2">
-                <Phone class="h-4 w-4 mr-1" />
-                Teléfono
+                <Phone class="h-4 w-4 mr-1" /> Teléfono
               </label>
               <div class="relative">
                 <input
                   id="telefono"
                   v-model="form.Telefono"
                   type="text"
-                  class="flex h-9 w-full rounded-md border border-input bg-transparent pl-9 pr-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                  class="flex h-9 w-full rounded-md border border-input bg-transparent pl-9 pr-3 py-1 text-sm"
                   :class="{ 'border-destructive': form.errors.Telefono }"
                 />
                 <Phone class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               </div>
-              <!-- Mensaje de error para Teléfono -->
               <div v-if="form.errors.Telefono" class="text-destructive text-xs mt-1 flex items-center">
-                <AlertCircle class="h-3 w-3 mr-1" />
-                {{ form.errors.Telefono }}
+                <AlertCircle class="h-3 w-3 mr-1" /> {{ form.errors.Telefono }}
               </div>
             </div>
 
-            <!-- Campo Dirección -->
+            <!-- Dirección -->
             <div>
               <label for="direccion" class="flex items-center text-sm font-medium text-foreground mb-2">
-                <MapPin class="h-4 w-4 mr-1" />
-                Dirección
+                <MapPin class="h-4 w-4 mr-1" /> Dirección
               </label>
               <div class="relative">
                 <textarea
                   id="direccion"
                   v-model="form.Direccion"
                   rows="3"
-                  class="flex min-h-[60px] w-full rounded-md border border-input bg-transparent pl-9 pr-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                  class="flex w-full rounded-md border border-input bg-transparent pl-9 pr-3 py-2 text-sm"
                   :class="{ 'border-destructive': form.errors.Direccion }"
                 ></textarea>
                 <MapPin class="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               </div>
-              <!-- Mensaje de error para Dirección -->
               <div v-if="form.errors.Direccion" class="text-destructive text-xs mt-1 flex items-center">
-                <AlertCircle class="h-3 w-3 mr-1" />
-                {{ form.errors.Direccion }}
+                <AlertCircle class="h-3 w-3 mr-1" /> {{ form.errors.Direccion }}
               </div>
             </div>
 
-            <!-- Campo Correo -->
+            <!-- Correo -->
             <div>
               <label for="correo" class="flex items-center text-sm font-medium text-foreground mb-2">
-                <Mail class="h-4 w-4 mr-1" />
-                Correo Electrónico
+                <Mail class="h-4 w-4 mr-1" /> Correo Electrónico
               </label>
               <div class="relative">
                 <input
                   id="correo"
                   v-model="form.Correo"
                   type="email"
-                  required
-                  class="flex h-9 w-full rounded-md border border-input bg-transparent pl-9 pr-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                  class="flex h-9 w-full rounded-md border border-input bg-transparent pl-9 pr-3 py-1 text-sm"
                   :class="{ 'border-destructive': form.errors.Correo }"
                 />
                 <Mail class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               </div>
-              <!-- Mensaje de error para Correo -->
               <div v-if="form.errors.Correo" class="text-destructive text-xs mt-1 flex items-center">
-                <AlertCircle class="h-3 w-3 mr-1" />
-                {{ form.errors.Correo }}
+                <AlertCircle class="h-3 w-3 mr-1" /> {{ form.errors.Correo }}
               </div>
             </div>
           </div>
 
-          <!-- Botones de acción -->
+          <!-- Botones -->
           <div class="mt-6 flex justify-end space-x-2">
-            <!-- Botón cancelar, cierra el modal -->
-            <Button
-              type="button"
-              variant="outline"
-              @click="$emit('close')"
-              class="px-4 flex items-center"
-            >
-              <X class="h-4 w-4 mr-1" />
-              Cancelar
+            <Button type="button" variant="outline" @click="$emit('close')">
+              <X class="h-4 w-4 mr-1" /> Cancelar
             </Button>
-            <!-- Botón guardar, envía el formulario -->
-            <Button
-              type="submit"
-              :disabled="form.processing"
-              class="px-4 flex items-center"
-            >
+            <Button type="submit" :disabled="form.processing">
               <template v-if="form.processing">
-                <Loader2 class="h-4 w-4 mr-1 animate-spin" />
-                Guardando...
+                <Loader2 class="h-4 w-4 mr-1 animate-spin" /> Guardando...
               </template>
               <template v-else>
-                <Save class="h-4 w-4 mr-1" />
-                Guardar Cambios
+                <Save class="h-4 w-4 mr-1" /> Guardar Cambios
               </template>
             </Button>
           </div>
@@ -141,26 +112,49 @@
       </div>
     </div>
   </div>
+
+  <!-- Toast -->
+  <Transition name="fade">
+    <div
+      v-if="showToast"
+      class="fixed top-6 right-6 z-50 px-4 py-2 rounded shadow-lg text-white text-sm"
+      :class="{
+        'bg-green-600': toastType === 'success',
+        'bg-red-600': toastType === 'error'
+      }"
+    >
+      {{ toastMessage }}
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
 import { router, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import { Button } from '@/components/ui/button';
-import { Building, User, Phone, MapPin, Mail, X, Save, Loader2, AlertCircle } from 'lucide-vue-next';
+import {
+  Building,
+  User,
+  Phone,
+  MapPin,
+  Mail,
+  X,
+  Save,
+  Loader2,
+  AlertCircle
+} from 'lucide-vue-next';
 import type { Proveedor } from '@/types';
 
-// Props: se recibe el proveedor actual que se va a editar
-const props = defineProps<{
-  proveedor: Proveedor;
-}>();
+// Props
+const props = defineProps<{ proveedor: Proveedor }>();
 
-// Emits: eventos personalizados que el componente puede emitir
+// Emits
 const emit = defineEmits<{
-  (e: 'close'): void;    // Para cerrar el modal
-  (e: 'updated', msg: string): void;  // Para notificar que el proveedor fue actualizado
+  (e: 'close'): void;
+  (e: 'updated', msg:string, type:any): void;
 }>();
 
-// Formulario con datos iniciales del proveedor
+// Formulario
 const form = useForm({
   Razon_social: props.proveedor.Razon_social || '',
   Telefono: props.proveedor.Telefono || '',
@@ -168,25 +162,32 @@ const form = useForm({
   Correo: props.proveedor.Correo || '',
 });
 
+// Toast
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastType = ref<'success' | 'error'>('success');
 
-// Función para enviar el formulario al backend
+const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+  toastMessage.value = message;
+  toastType.value = type;
+  showToast.value = true;
+  setTimeout(() => (showToast.value = false), 3000);
+};
+
+// Submit
 const submitForm = () => {
   form.put(`/proveedores/${props.proveedor.Idproveedor}`, {
     preserveScroll: true,
-    onError: (errors) => {
-      console.log('Errores recibidos en editar:', errors);
-      // el modal sigue abierto y los errores se muestran en form.errors
-    },
     onSuccess: () => {
-      emit('updated', 'Proveedor actualizado correctamente ✅');
-      form.reset();
-      emit('close');   // cerramos modal solo si no hubo error
-      //refrescar la vista de proveedor
+      emit('updated','Proveedor actualizado correctamente', 'success')
+      emit('close')
       setTimeout(() => {
-        router.visit(window.location.href, { replace: true });
-      }, 500);
+        window.location.reload();
+      }, 1000);
+    },
+    onError: () => {
+      showNotification('Error al actualizar el proveedor ❌', 'error');
     },
   });
 };
-
 </script>

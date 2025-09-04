@@ -54,12 +54,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Categorías
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/Categoria', [CategoriaController::class, 'index'])->name('Categoria.index');
+    Route::post('/categorias', [CategoriaController::class, 'store'])->name('Categoria.store');
+    Route::put('/categoria/{categoria}', [CategoriaController::class, 'update'])->name('Categoria.update');
+    Route::delete('/categoria/{categoria}', [CategoriaController::class, 'destroy'])->name('Categoria.destroy');
 });
 
 // Subcategorías
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/Subcategoria', [SubcategoriaController::class, 'index'])->name('Subcategoria.index');
+    Route::post('/Subcategoria', [SubcategoriaController::class, 'store'])->name('Subcategoria.store');
+    Route::put('/Subcategoria/{subcategoria}', [SubcategoriaController::class, 'update'])->name('Subcategoria.update');
+    Route::delete('/Subcategoria/{subcategoria}', [SubcategoriaController::class, 'destroy'])->name('Subcategoria.destroy');
 });
+
 
 // Roles
 Route::middleware(['auth', 'verified'])->group(function () {

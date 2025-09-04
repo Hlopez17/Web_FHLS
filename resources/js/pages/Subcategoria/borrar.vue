@@ -5,26 +5,32 @@
         <div class="flex items-center justify-center w-12 h-12 rounded-full bg-destructive/10 mx-auto mb-4">
           <Trash2 class="h-6 w-6 text-destructive" />
         </div>
-        
+
         <h2 class="text-xl font-semibold text-foreground text-center mb-2">
           ¿Eliminar Subcategoría?
         </h2>
-        
-        <div v-if="subcategoria.productos && subcategoria.productos.length > 0" class="bg-destructive/10 border border-destructive/20 rounded-md p-3 mb-4">
+
+        <!-- Alerta si tiene productos -->
+        <div
+          v-if="subcategoria.productos && subcategoria.productos.length > 0"
+          class="bg-destructive/10 border border-destructive/20 rounded-md p-3 mb-4"
+        >
           <AlertCircle class="h-5 w-5 text-destructive inline-block mr-2" />
           <span class="text-destructive text-sm font-medium">No se puede eliminar</span>
           <p class="text-destructive text-xs mt-1">
-            Esta subcategoría tiene {{ subcategoria.productos.length }} producto(s) asociado(s). 
+            Esta subcategoría tiene {{ subcategoria.productos.length }} producto(s) asociado(s).
             Debe eliminar primero los productos antes de poder eliminar esta subcategoría.
           </p>
         </div>
 
+        <!-- Confirmación -->
         <p v-else class="text-muted-foreground text-center mb-6">
-          ¿Estás seguro de que deseas eliminar la subcategoría 
-          <span class="font-medium text-foreground">"{{ subcategoria.Nombre_subcat || 'Sin nombre' }}"</span>? 
+          ¿Estás seguro de que deseas eliminar la subcategoría
+          <span class="font-medium text-foreground">"{{ subcategoria.Nombre_subcat || 'Sin nombre' }}"</span>?
           Esta acción no se puede deshacer.
         </p>
 
+        <!-- Botones -->
         <div class="flex justify-center space-x-3">
           <Button
             type="button"
@@ -49,6 +55,20 @@
       </div>
     </div>
   </div>
+
+  <!-- Toast -->
+  <Transition name="fade">
+    <div
+      v-if="showToast"
+      class="fixed top-6 right-6 z-50 px-4 py-2 rounded shadow-lg text-white text-sm"
+      :class="{
+        'bg-green-600': toastType === 'success',
+        'bg-red-600': toastType === 'error'
+      }"
+    >
+      {{ toastMessage }}
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -66,30 +86,46 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'deleted'): void;
+  (e: 'deleted', msg:string, type:any): void;
 }>();
 
-// Estado para controlar el proceso de eliminación
+// Estado
 const processing = ref(false);
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastType = ref<'success' | 'error'>('success');
 
-// Función para confirmar la eliminación
+// Función toast
+const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+  toastMessage.value = message;
+  toastType.value = type;
+  showToast.value = true;
+  setTimeout(() => {
+    showToast.value = false;
+  }, 3000);
+};
+
+// Eliminar subcategoría
 const confirmDelete = async () => {
-  // Verificar si hay productos asociados
   if (props.subcategoria.productos && props.subcategoria.productos.length > 0) {
     return;
   }
 
   processing.value = true;
-  
+
   try {
-    await router.delete(`/subcategorias/${props.subcategoria.Idsubcat}`, {
+    await router.delete(`/Subcategoria/${props.subcategoria.Idsubcat}`, {
       preserveScroll: true,
       onSuccess: () => {
-        emit('deleted');
+        emit('deleted', 'Subcategoría eliminada correctamente', 'success');
         emit('close');
+        setTimeout(() => {
+          window.location.reload(); 
+        }, 1000);
       },
       onError: (errors) => {
-        console.error('Error eliminando subcategoría:', errors);
+        emit('deleted', 'Ocurrió un error al eliminar la Subcategoría', 'error');
+        console.error('Error eliminando Subcategoría:', errors);
         processing.value = false;
       },
       onFinish: () => {
@@ -99,6 +135,7 @@ const confirmDelete = async () => {
   } catch (error) {
     console.error('Error eliminando subcategoría:', error);
     processing.value = false;
+    showNotification('Error inesperado al eliminar ❌', 'error');
   }
 };
 </script>
