@@ -1,5 +1,7 @@
 <template>
   <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+
+    <!-- Modal de creación -->
     <div class="bg-background rounded-lg border border-border shadow-lg w-full max-w-md">
       <div class="p-6">
         <h2 class="text-xl font-semibold text-foreground mb-4">
@@ -49,30 +51,67 @@
       </div>
     </div>
   </div>
+   <!-- Toast -->
+  <Transition name="fade">
+    <div
+      v-if="showToast"
+      class="fixed top-6 right-6 z-50 px-4 py-2 rounded shadow-lg text-white text-sm"
+      :class="{
+        'bg-green-600': toastType === 'success',
+        'bg-red-600': toastType === 'error'
+      }"
+    >
+      {{ toastMessage }}
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import { Button } from '@/components/ui/button';
+import { CheckCircle, AlertCircle, X } from 'lucide-vue-next';
+
+// Toast states
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastType = ref<'success' | 'error'>('success');
+
+// Función para mostrar el toast
+const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+  toastMessage.value = message;
+  toastType.value = type;
+  showToast.value = true;
+
+  setTimeout(() => {
+    showToast.value = false;
+  }, 3000);
+};
 
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'created'): void;
+  (e: 'created', msg:string, type:any): void;
 }>();
 
-// Formulario con datos iniciales vacíos
+// Formulario
 const form = useForm({
   Nombre_cat: '',
 });
 
-// Función para enviar el formulario al backend
+// Envío del formulario
 const submitForm = () => {
   form.post('/categorias', {
     preserveScroll: true,
     onSuccess: () => {
-      emit('created');
+      emit('created', 'Categoría creada exitosamente!', 'success');
       emit('close');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    },
+    onError: () => {
+      showNotification('Error al crear la categoría', 'error');
     },
   });
 };

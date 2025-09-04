@@ -173,9 +173,10 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3';
+import { useForm, router } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import type { User } from '@/types';
+
 
 // Props
 const props = defineProps<{
@@ -186,7 +187,7 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'updated'): void;
+  (e: 'updated', msg:string, type:any): void;
 }>();
 
 // Formulario con datos iniciales del usuario
@@ -206,9 +207,16 @@ const submitForm = () => {
   form.put(`/usuarios/${props.user.Idusuario}`, {
     preserveScroll: true,
     onSuccess: () => {
-      emit('updated');
+      emit('updated','Usuario actualizado correctamente','success');
       emit('close');
+      
+       setTimeout(() => {
+        router.visit(window.location.href, { replace: true });
+      }, 1000);
     },
+    onError: (error) => {
+      emit('updated', 'Ocurrió un error al actualizar al usuario', 'error')
+    }
   });
 };
 </script>

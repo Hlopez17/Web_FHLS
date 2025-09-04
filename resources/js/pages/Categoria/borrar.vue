@@ -10,11 +10,11 @@
           ¿Eliminar Categoría?
         </h2>
         
-        <div v-if="categoria.subcategoria && categoria.subcategoria.length > 0" class="bg-destructive/10 border border-destructive/20 rounded-md p-3 mb-4">
+        <div v-if="categoria.subcategorias && categoria.subcategorias.length > 0" class="bg-destructive/10 border border-destructive/20 rounded-md p-3 mb-4">
           <AlertCircle class="h-5 w-5 text-destructive inline-block mr-2" />
           <span class="text-destructive text-sm font-medium">No se puede eliminar</span>
           <p class="text-destructive text-xs mt-1">
-            Esta categoría tiene {{ categoria.subcategoria.length }} subcategoría(s) asociada(s). 
+            Esta categoría tiene {{ categoria.subcategorias.length }} subcategoría(s) asociada(s). 
             Debe eliminar primero las subcategorías antes de poder eliminar esta categoría.
           </p>
         </div>
@@ -40,7 +40,7 @@
             variant="destructive"
             @click="confirmDelete"
             class="px-6"
-            :disabled="processing || (categoria.subcategoria && categoria.subcategoria.length > 0)"
+            :disabled="processing || (categoria.subcategorias && categoria.subcategorias.length > 0)"
           >
             <span v-if="processing">Eliminando...</span>
             <span v-else>Eliminar</span>
@@ -49,6 +49,20 @@
       </div>
     </div>
   </div>
+
+  <!-- Toast -->
+  <Transition name="fade">
+    <div
+      v-if="showToast"
+      class="fixed top-6 right-6 z-50 px-4 py-2 rounded shadow-lg text-white text-sm"
+      :class="{
+        'bg-green-600': toastType === 'success',
+        'bg-red-600': toastType === 'error'
+      }"
+    >
+      {{ toastMessage }}
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -66,29 +80,46 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'deleted'): void;
+  (e: 'deleted', msg:string, type:any): void;
 }>();
 
-// Estado para controlar el proceso de eliminación
+// Estado para control de eliminación
 const processing = ref(false);
 
-// Función para confirmar la eliminación
+// Toast
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastType = ref<'success' | 'error'>('success');
+
+const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+  toastMessage.value = message;
+  toastType.value = type;
+  showToast.value = true;
+  setTimeout(() => {
+    showToast.value = false;
+  }, 3000);
+};
+
+// Función para confirmar eliminación
 const confirmDelete = async () => {
-  // Verificar si hay subcategorías asociadas
-  if (props.categoria.subcategoria && props.categoria.subcategoria.length > 0) {
+  if (props.categoria.subcategorias && props.categoria.subcategorias.length > 0) {
     return;
   }
 
   processing.value = true;
-  
+
   try {
-    await router.delete(`/categorias/${props.categoria.Idcategoria}`, {
+    await router.delete(`/categoria/${props.categoria.Idcategoria}`, {
       preserveScroll: true,
       onSuccess: () => {
-        emit('deleted');
+        emit('deleted', 'Categoría eliminada correctamente', 'success');
         emit('close');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       },
       onError: (errors) => {
+        emit('deleted', 'Ocurrió un error al eliminar la categoría', 'error');
         console.error('Error eliminando categoría:', errors);
         processing.value = false;
       },
@@ -98,6 +129,7 @@ const confirmDelete = async () => {
     });
   } catch (error) {
     console.error('Error eliminando categoría:', error);
+    showNotification('Error inesperado ❌', 'error');
     processing.value = false;
   }
 };

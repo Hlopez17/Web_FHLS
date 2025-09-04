@@ -1,8 +1,18 @@
 <template>
   <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-  <div 
-    class="bg-background rounded-lg border border-border shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto"
-  >
+    <!-- Toast Notification -->
+    <div v-if="showToast" :class="['fixed top-4 right-4 p-4 rounded-lg shadow-lg z-60 flex items-center transition-all duration-300', 
+        toastType === 'success' ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-800']">
+      <CheckCircle v-if="toastType === 'success'" class="h-5 w-5 mr-2" />
+      <AlertCircle v-else class="h-5 w-5 mr-2" />
+      <span>{{ toastMessage }}</span>
+      <button @click="showToast = false" class="ml-4 text-gray-500 hover:text-gray-700">
+        <X class="h-4 w-4" />
+      </button>
+    </div>
+
+    <!-- SOLO UN div principal para el modal -->
+    <div class="bg-background rounded-lg border border-border shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
     <div class="p-6">
       <!-- Todo tu contenido del formulario va aquí -->
        <div class="flex items-center mb-4">
@@ -181,7 +191,7 @@
                       disabled:cursor-not-allowed disabled:opacity-50"
                 :class="{ 'border-destructive': form.errors.Idsubcat }"
               >
-                <option value="">Seleccionar Medida</option>
+                <option value="">Seleccionar Subcategoria</option>
                 <option 
                   v-for="subcategoria in props.subcategorias" 
                   :key="subcategoria.Idsubcat" 
@@ -206,8 +216,8 @@
                 :class="{ 'border-destructive': form.errors.Estado }"
                 >
               <option value="">Seleccione estado</option>
-              <option value="1">Activo</option>
-              <option value="0">Inactivo</option>
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
               </select>
 
               <div v-if="form.errors.Estado" class="text-destructive text-xs mt-1">
@@ -296,7 +306,10 @@ import type { Categoria } from '@/types';
 import type { Subcategoria } from '@/types';
 import type { Unidadmedida } from '@/types';
 
-import { Building, User, HandCoins , CircleDollarSign , X, Check, Loader2, AlertCircle, ScanBarcode  } from 'lucide-vue-next';
+import { 
+  Building, User, HandCoins, CircleDollarSign, X, Check, 
+  Loader2, AlertCircle, ScanBarcode, CheckCircle 
+} from 'lucide-vue-next';
 
 
 // Props
@@ -305,12 +318,21 @@ const props = defineProps<{
   unidadmedidas:Unidadmedida[];
 
 }>();
+// Estado para el toast
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastType = ref<'success' | 'error'>('success');
 
-// const props = defineProps<CrearProductoProps>();
-
-//
-
-
+// Función para mostrar notificación
+const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+  toastMessage.value = message;
+  toastType.value = type;
+  showToast.value = true;
+  
+  setTimeout(() => {
+    showToast.value = false;
+  }, 3000);
+};
 // Estado local para guardar lo seleccionado
 const selectedCategoria = ref<number | null>(null);
 //
@@ -323,21 +345,40 @@ const emit = defineEmits<{
 
 // Formulario con datos iniciales vacíos
 const form = useForm({
-  //Aquí deben de ir los Campos de la Tabla Productos
-  Razon_social: '',
-  Telefono: '',
-  Direccion: '',
-  Correo: '',
+  Codigo_barra: '',
+  Nombre: '',
+  Precio_costo: '',
+  Precio_venta: '',
+  Precio_descuento: '',
+  Precio_Mayorista: '',
+  Id_Medida: '',     // este sí conecta con tu combobox
+  Idsubcat: '',      // este también conecta con tu combobox
+  Estado: '',        // activo/inactivo
+  foto: null,
+
 });
 
-// Función para enviar el formulario al backend
+
+// Función para enviar el formulario
 const submitForm = () => {
-  form.post('/proveedores', {
-    preserveScroll: true, // Mantiene el scroll en su posición
-    onSuccess: () => {
-      emit('created'); // Se emite evento de creación
-      emit('close');   // Se cierra el modal
+  console.log('📤 Datos que voy a enviar:', form);
+  form.post('/Producto', {
+    preserveScroll: true,
+onSuccess: () => {
+  console.log('✅ Producto creado exitosamente - mostrando toast');
+  showNotification('Producto creado exitosamente!', 'success');
+  
+  // Esperar a que el toast se muestre antes de cerrar y recargar
+  setTimeout(() => {
+    emit('created');
+    emit('close');
+    window.location.reload();
+  }, 2000); // 2 segundos para ver el toast
     },
+    onError: (errors) => {
+      console.log('❌ Error al crear producto - mostrando toast de error');
+      showNotification('Error al crear el producto', 'error');
+    }
   });
 };
 </script>

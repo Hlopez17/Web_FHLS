@@ -121,18 +121,22 @@ const refreshProductos = () => {
     />
 
     <!-- Modal de creación -->
-    <CrearProd 
-      v-if="creatingProducto" 
-      @close="creatingProducto = false"
-      @created="refreshProductos"
-    />
+<CrearProd 
+  v-if="creatingProducto" 
+  :unidadmedidas="unidadmedidas"
+  :subcategorias="subcategorias"
+  @close="creatingProducto = false"
+  @created="refreshProductos"
+/>
 
-    <!-- Modal de eliminación -->
-    <BorrarProd 
-      v-if="deletingProducto" 
-      :producto="deletingProducto"
-      @close="deletingProducto = null"
-      @deleted="refreshProductos"
-    />
+
+<!-- Modal de eliminación -->
+<BorrarProd 
+  v-if="deletingProducto" 
+  :producto="deletingProducto"
+  @close="deletingProducto = null"
+  @deleted="refreshProductos"
+/>
+
 </AppLayout>
 </template>

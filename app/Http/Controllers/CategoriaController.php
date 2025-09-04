@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
+use App\Models\Subcategoria; // ← Importar el modelo Subcategoria
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-
 
 class CategoriaController extends Controller
 {
@@ -14,8 +14,8 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Categoria/Index', [ // ← Cambiado a 'User/Index'
-            'categorias' => Categoria::all() // ← También cambiar la clave del modelo de la base de datos 
+        return Inertia::render('Categoria/Index', [
+            'categorias' => Categoria::with('subcategorias')->get() // ← Cargar subcategorías relacionadas
         ]);
     }
 
@@ -32,7 +32,20 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    $validated = $request->validate([
+        'Nombre_cat' => [
+            'required',
+            'string',
+            'max:255',
+            'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/u',
+            'unique:categorias,Nombre_cat',
+        ],
+    ]);
+
+    Categoria::create($validated);
+
+    return redirect()->route('Categoria.index')
+        ->with('success', 'Categoría creada exitosamente');
     }
 
     /**
@@ -54,16 +67,39 @@ class CategoriaController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
     public function update(Request $request, Categoria $categoria)
     {
-        //
+    $validated = $request->validate([
+        'Nombre_cat' => [
+            'required',
+            'string',
+            'max:255',
+            'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/u',
+            'unique:categorias,Nombre_cat,' . $categoria->Idcategoria . ',Idcategoria',
+        ],
+    ]);
+
+    $categoria->update($validated);
+
+    return redirect()->route('Categoria.index')
+        ->with('success', 'Categoría actualizada exitosamente');
     }
 
     /**
      * Remove the specified resource from storage.
      */
+  
     public function destroy(Categoria $categoria)
     {
-        //
+        if ($categoria->subcategorias()->count() > 0) {
+            return redirect()->route('Categoria.index')
+                ->with('error', 'No se puede eliminar la categoría porque tiene subcategorías asociadas');
+        }
+
+        $categoria->delete();
+
+        return redirect()->route('Categoria.index')
+            ->with('success', 'Categoría eliminada exitosamente');
     }
 }
