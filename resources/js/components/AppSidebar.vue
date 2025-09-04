@@ -68,6 +68,7 @@ const mainNavItems: NavItem[] = [
         icon: Weight, //
     },
 
+ 
     // Sucursal
     {
         title: 'Sucursales',
@@ -81,6 +82,13 @@ const mainNavItems: NavItem[] = [
         href: '/Bodega',
         icon: Store  , //
     },
+    // Clientes
+    {
+        title: 'Clientes',
+        href: '/Cliente',
+        icon: UsersRound, //
+    },
+
 
 ];
 

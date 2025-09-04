@@ -141,3 +141,21 @@ export interface Inventario {
 
     bodega?:Bodega;
 }
+
+
+//clientes
+interface Cliente {
+  Idcliente: number;
+  Cedula: string | null;
+  Nombre: string;
+  Apellido: string;
+  Telefono: string | null;
+  Correo: string | null;
+  Limitecredito: number | null;
+  Saldocredito: number | null;
+  created_at?: string | null;
+  updated_at?: string | null;
+  cotizacion?: any[];
+  factura?: any[];
+  cuentascobrar?: any[];
+}

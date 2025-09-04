@@ -11,6 +11,7 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\UnidadmedidaController;
 use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\BodegaController;
+use App\Http\Controllers\ClienteController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -21,24 +22,19 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Proveedor
+// Proveedores
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Listar proveedores
     Route::get('/Proveedor', [ProveedorController::class, 'index'])->name('Proveedor.index');
-    // Crear proveedor
     Route::post('/proveedores', [ProveedorController::class, 'store'])->name('Proveedor.store');
-    // Actualizar proveedor
     Route::put('/proveedores/{proveedor}', [ProveedorController::class, 'update'])->name('Proveedor.update');
-    // Eliminar proveedor
     Route::delete('/proveedores/{proveedor}', [ProveedorController::class, 'destroy'])->name('Proveedor.destroy');
 });
 
-// Usuario
-Route::middleware(['auth', 'verified'])->group(function(){
+// Usuarios
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/User', [UserController::class, 'index'])->name('User.index');
     Route::resource('usuarios', UserController::class);
 });
-
 
 // Subida de imagen de perfil
 Route::post('/profile/image', [UserController::class, 'updateProfileImage'])
@@ -46,7 +42,7 @@ Route::post('/profile/image', [UserController::class, 'updateProfileImage'])
     ->middleware('auth');
 
 // Productos
-Route::middleware(['auth', 'verified'])->group(function(){
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/Producto', [ProductoController::class, 'index'])->name('Producto.index');
     Route::get('/Producto/create', [ProductoController::class, 'create'])->name('Producto.create');
     Route::post('/Producto', [ProductoController::class, 'store'])->name('Producto.store');
@@ -56,17 +52,17 @@ Route::middleware(['auth', 'verified'])->group(function(){
 });
 
 // Categorías
-Route::middleware(['auth', 'verified'])->group(function(){
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/Categoria', [CategoriaController::class, 'index'])->name('Categoria.index');
 });
 
 // Subcategorías
-Route::middleware(['auth', 'verified'])->group(function(){
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/Subcategoria', [SubcategoriaController::class, 'index'])->name('Subcategoria.index');
 });
 
 // Roles
-Route::middleware(['auth', 'verified'])->group(function(){
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/Rol', [RolController::class, 'index'])->name('Rol.index');
     Route::get('/Rol/create', [RolController::class, 'create'])->name('Rol.create');
     Route::post('/Rol', [RolController::class, 'store'])->name('Rol.store');
@@ -75,8 +71,8 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::delete('/Rol/{rol}', [RolController::class, 'destroy'])->name('Rol.destroy');
 });
 
-// Medidas
-Route::middleware(['auth', 'verified'])->group(function(){
+// Unidad de Medida
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/Unidadmedida', [UnidadmedidaController::class, 'index'])->name('Unidadmedida.index');
     Route::get('/Unidadmedida/create', [UnidadmedidaController::class, 'create'])->name('Unidadmedida.create');
     Route::post('/Unidadmedida', [UnidadmedidaController::class, 'store'])->name('Unidadmedida.store');
@@ -86,15 +82,21 @@ Route::middleware(['auth', 'verified'])->group(function(){
 });
 
 // Sucursales
-Route::middleware(['auth', 'verified'])->group(function(){
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/Sucursal', [SucursalController::class, 'index'])->name('Sucursal.index');
     Route::resource('Sucursal', SucursalController::class);
 });
 
 // Bodegas
-Route::middleware(['auth', 'verified'])->group(function(){
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/Bodega', [BodegaController::class, 'index'])->name('Bodega.index');
     Route::resource('Bodega', BodegaController::class);
+});
+
+// Clientes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/Cliente', [ClienteController::class, 'index'])->name('Cliente.index');
+    Route::resource('Cliente', ClienteController::class);
 });
 
 // Extra
