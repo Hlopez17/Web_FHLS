@@ -71,7 +71,7 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'deleted'): void;
+  (e: 'deleted', msg:string, type:any): void;
 }>();
 
 // Estado para controlar el proceso de eliminación
@@ -87,13 +87,18 @@ const confirmDelete = async () => {
   processing.value = true;
   
   try {
-    await router.delete(`/sucursales/${props.sucursal.Idsucursal}`, {
+    await router.delete(`/Sucursal/${props.sucursal.Idsucursal}`, {
       preserveScroll: true,
       onSuccess: () => {
-        emit('deleted');
+        emit('deleted', 'Sucursal eliminada correctamente', 'success');
         emit('close');
+
+        setTimeout(() => {
+        router.visit(window.location.href, { replace: true });
+      }, 1000);
       },
       onError: (errors) => {
+        emit('deleted', 'Ocurrió un error al eliminar la sucursal', 'error');
         console.error('Error eliminando sucursal:', errors);
         processing.value = false;
       },

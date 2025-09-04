@@ -42,6 +42,7 @@ const openDeleteModal = (rol: Rol) => {
 
 // Función para refrescar los productos
 const refreshRoles = () => {
+  deletingRol.value = null;
   router.reload({ only: ['rols'] });
 };
 </script>

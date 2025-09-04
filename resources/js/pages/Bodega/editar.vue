@@ -112,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3';
+import { useForm, router } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import type { Bodega, Sucursal } from '@/types';
 
@@ -125,7 +125,7 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'updated'): void;
+  (e: 'updated', msg:string, type:any): void;
 }>();
 
 // Formulario con datos iniciales
@@ -137,11 +137,15 @@ const form = useForm({
 
 // Función para enviar el formulario al backend
 const submitForm = () => {
-  form.put(`/bodegas/${props.bodega.Idbodega}`, {
+  form.put(`/Bodega/${props.bodega.Idbodega}`, {
     preserveScroll: true,
     onSuccess: () => {
-      emit('updated');
+      emit('updated', 'Bodega actualizada correctamente', 'success');
       emit('close');
+
+      setTimeout(() => {
+        router.visit(window.location.href, { replace: true });
+      }, 1000);
     },
   });
 };

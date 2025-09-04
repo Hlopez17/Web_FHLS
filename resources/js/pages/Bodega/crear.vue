@@ -17,7 +17,6 @@
                 v-model="form.Nombre_bodega"
                 type="text"
                 class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                required
                 :class="{ 'border-destructive': form.errors.Nombre_bodega }"
                 placeholder="Ingrese el nombre de la Bodega"
               />
@@ -35,9 +34,8 @@
                 v-model="form.Direccion"
                 type="text"
                 class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                required
                 :class="{ 'border-destructive': form.errors.Direccion }"
-                placeholder="Ingrese el nombre de la Bodega"
+                placeholder="Ingrese la dirección de la Bodega"
               />
               <div v-if="form.errors.Direccion" class="text-destructive text-xs mt-1">
                 {{ form.errors.Direccion }}
@@ -52,7 +50,6 @@
                 id="Idsucursal"
                 v-model="form.Idsucursal"
                 class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                required
                 :class="{ 'border-destructive': form.errors.Idsucursal }"
               >
                 <option value="">Seleccionar Sucursal</option>
@@ -91,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3';
+import { useForm, router } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import type { Sucursal } from '@/types';
 
@@ -103,7 +100,7 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'created'): void;
+  (e: 'created', msg:string, type:any): void;
 }>();
 
 // Formulario con datos iniciales vacíos
@@ -121,12 +118,16 @@ const submitForm = () => {
     Idsucursal: form.Idsucursal === '' ? null : Number(form.Idsucursal)
   };
   
-  form.post('/subcategorias', {
+  form.post('/Bodega', {
     data: formData,
     preserveScroll: true,
     onSuccess: () => {
-      emit('created');
+      emit('created', 'Bodega creada correctamente', 'success');
       emit('close');
+
+      setTimeout(() => {
+        router.visit(window.location.href, { replace: true });
+      }, 1000);
     },
   });
 };

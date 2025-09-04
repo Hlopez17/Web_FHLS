@@ -67,7 +67,7 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'deleted'): void;
+  (e: 'deleted', msg:string, type:any): void;
 }>();
 
 // Estado para controlar el proceso de eliminación
@@ -82,13 +82,18 @@ const confirmDelete = async () => {
   processing.value = true;
   
   try {
-    await router.delete(`/bodegas/${props.bodega.Idbodega}`, {
+    await router.delete(`/Bodega/${props.bodega.Idbodega}`, {
       preserveScroll: true,
       onSuccess: () => {
-        emit('deleted');
+        emit('deleted', 'Bodega eliminada correctamente', 'success');
         emit('close');
+
+        setTimeout(() => {
+        router.visit(window.location.href, { replace: true });
+      }, 1000);
       },
       onError: (errors) => {
+         emit('deleted', 'Ocurrió un error al eliminar la bodega', 'error');
         console.error('Error eliminando bodega:', errors);
         processing.value = false;
       },

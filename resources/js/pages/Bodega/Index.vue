@@ -34,6 +34,23 @@ const editBodega = (bodega: Bodega) => {
   editingBodega.value = bodega;
 };
 
+// Estado para el toast
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastType = ref<'success' | 'error'>('success');
+
+// Función para mostrar notificación
+const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+  toastMessage.value = message;
+  toastType.value = type;
+  showToast.value = true;
+
+  setTimeout(() => {
+    showToast.value = false;
+  }, 3000);
+};
+
+
 // Función para abrir el modal de creación
 const openCreateModal = () => {
   creatingBodega.value = true;
@@ -45,7 +62,8 @@ const openDeleteModal = (bodega: Bodega) => {
 };
 
 // Función para refrescar las subcategorías
-const refreshSubcategorias = () => {
+const refreshSubcategorias = (msg:string, type:any) => {
+  showNotification(msg, type)
   router.reload({ only: ['bodegas'] });
 };
 </script>
@@ -54,6 +72,18 @@ const refreshSubcategorias = () => {
   <Head title="Bodega"/>
   <AppLayout>
     <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+
+<!-- Toast Notification -->
+    <div v-if="showToast" :class="['fixed top-4 right-4 p-4 rounded-lg shadow-lg z-60 flex items-center transition-all duration-300', 
+        toastType === 'success' ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-800']">
+      <CheckCircle v-if="toastType === 'success'" class="h-5 w-5 mr-2" />
+      <AlertCircle v-else class="h-5 w-5 mr-2" />
+      <span>{{ toastMessage }}</span>
+      <button @click="showToast = false" class="ml-4 text-gray-500 hover:text-gray-700">
+        <X class="h-4 w-4" />
+      </button>
+    </div>
+
       <div class="flex">
         <Button 
           size="sm" 

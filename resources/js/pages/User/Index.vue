@@ -38,11 +38,21 @@ const editUser = (user: UserType) => {
   editingUser.value = user;
 };
 
-const onMessage = (msg: string) => {
-  localFlash.value = msg;
-  setTimeout(() => (localFlash.value = null), 3000);
-};
+// Estado para el toast
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastType = ref<'success' | 'error'>('success');
 
+// Función para mostrar notificación
+const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+  toastMessage.value = message;
+  toastType.value = type;
+  showToast.value = true;
+  
+  setTimeout(() => {
+    showToast.value = false;
+  }, 3000);
+};
 
 // Función para abrir el modal de creación
 const openCreateModal = () => {
@@ -88,6 +98,16 @@ const formatEstado = (estado: string | null) => {
 <AppLayout>
  <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
 
+        <!-- Toast Notification -->
+    <div v-if="showToast" :class="['fixed top-4 right-4 p-4 rounded-lg shadow-lg z-60 flex items-center transition-all duration-300', 
+        toastType === 'success' ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-800']">
+      <CheckCircle v-if="toastType === 'success'" class="h-5 w-5 mr-2" />
+      <AlertCircle v-else class="h-5 w-5 mr-2" />
+      <span>{{ toastMessage }}</span>
+      <button @click="showToast = false" class="ml-4 text-gray-500 hover:text-gray-700">
+        <X class="h-4 w-4" />
+      </button>
+    </div>
 
 <!-- Mensajes locales -->
       <div v-if="localFlash" class="mb-2 p-3 rounded bg-green-100 text-green-800">
@@ -202,7 +222,7 @@ const formatEstado = (estado: string | null) => {
       :user="editingUser" 
       :roles="roles"
       @close="editingUser = null"
-      @updated="onMessage"
+      @updated="showNotification"
     />
 
     <!-- Modal de creación -->
@@ -210,7 +230,7 @@ const formatEstado = (estado: string | null) => {
       v-if="creatingUser" 
       :roles="roles"
       @close="creatingUser = false"
-      @created="onMessage"
+      @created="showNotification"
     />
 
     <!-- Modal de eliminación -->
@@ -218,7 +238,7 @@ const formatEstado = (estado: string | null) => {
       v-if="deletingUser" 
       :user="deletingUser"
       @close="deletingUser = null"
-      @deleted="onMessage"
+      @deleted="showNotification"
     />
 </AppLayout>
 </template>

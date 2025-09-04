@@ -187,7 +187,7 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'created', msg:string): void;
+  (e: 'created', msg:string, type:any): void;
 }>();
 
 // Formulario con datos iniciales vacíos
@@ -207,7 +207,7 @@ const submitForm = () => {
   form.post('/usuarios', {
     preserveScroll: true,
     onSuccess: () => {
-      emit('created', 'Usuario creado correctamente ✅');
+      emit('created', 'Usuario creado correctamente ✅', 'success');
       emit('close');
 
        setTimeout(() => {

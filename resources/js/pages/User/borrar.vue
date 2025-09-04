@@ -57,7 +57,7 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'deleted', msg:string): void;
+  (e: 'deleted', msg:string, type:any): void;
 }>();
 
 // Estado para controlar el proceso de eliminación
@@ -71,7 +71,7 @@ const confirmDelete = async () => {
     await router.delete(`/usuarios/${props.user.Idusuario}`, {
       preserveScroll: true,
       onSuccess: () => {
-        emit('deleted',`Usuario eliminado correctamente`);
+        emit('deleted',`Usuario eliminado correctamente`,'success');
         emit('close');
 
          setTimeout(() => {
@@ -79,6 +79,7 @@ const confirmDelete = async () => {
       }, 1000);
       },
       onError: (errors) => {
+        emit('deleted', 'Ocurrió un error al eliminar al usuario', 'error')
         console.error('Error eliminando usuario:', errors);
         processing.value = false;
       },

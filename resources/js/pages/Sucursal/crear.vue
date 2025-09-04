@@ -17,7 +17,6 @@
                 v-model="form.Nombre_Sucursal"
                 type="text"
                 class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                required
                 :class="{ 'border-destructive': form.errors.Nombre_Sucursal }"
                 placeholder="Ingrese el nombre de la Sucursal"
               />
@@ -35,7 +34,7 @@
                 v-model="form.Direccion"
                 type="text"
                 class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                required
+
                 :class="{ 'border-destructive': form.errors.Direccion }"
                 placeholder="Ingrese la dirección de la Sucursal"
               />
@@ -91,13 +90,13 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3';
+import { useForm, router } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'created'): void;
+  (e: 'created', msg:string, type:any): void;
 }>();
 
 // Formulario con datos iniciales vacíos
@@ -109,11 +108,15 @@ const form = useForm({
 
 // Función para enviar el formulario al backend
 const submitForm = () => {
-  form.post('/categorias', {
+  form.post('/Sucursal', {
     preserveScroll: true,
     onSuccess: () => {
-      emit('created');
+      emit('created', 'Sucursal creada correctamente', 'success');
       emit('close');
+
+      setTimeout(() => {
+        router.visit(window.location.href, { replace: true });
+      }, 1000);
     },
   });
 };

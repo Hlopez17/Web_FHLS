@@ -37,7 +37,7 @@
                 v-model="form.Direccion"
                 type="text"
                 class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                required
+                
                 :class="{ 'border-destructive': form.errors.Direccion }"
                 placeholder="Ingrese la dirección de la sucursal"
               />
@@ -93,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { useForm, router } from '@inertiajs/vue3'
 import { Button } from '@/components/ui/button'
 import type { Sucursal } from '@/types'
 
@@ -103,7 +103,7 @@ const props = defineProps<{ sucursal: Sucursal }>()
 // Eventos emitidos
 const emit = defineEmits<{
   (e: 'close'): void
-  (e: 'updated'): void
+  (e: 'updated', msg:string, type:any): void
 }>()
 
 // Formulario con datos precargados desde la sucursal seleccionada
@@ -115,11 +115,15 @@ const form = useForm({
 
 // Función para actualizar en el backend
 const submitForm = () => {
-  form.put(`/sucursales/${props.sucursal.Idsucursal}`, {
+  form.put(`/Sucursal/${props.sucursal.Idsucursal}`, {
     preserveScroll: true,
     onSuccess: () => {
-      emit('updated')
+      emit('updated','Sucursal actualizada correctamente', 'success')
       emit('close')
+
+      setTimeout(() => {
+        router.visit(window.location.href, { replace: true });
+      }, 1000);
     },
   })
 }

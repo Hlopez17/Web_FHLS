@@ -187,7 +187,7 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'updated', msg:string): void;
+  (e: 'updated', msg:string, type:any): void;
 }>();
 
 // Formulario con datos iniciales del usuario
@@ -207,13 +207,16 @@ const submitForm = () => {
   form.put(`/usuarios/${props.user.Idusuario}`, {
     preserveScroll: true,
     onSuccess: () => {
-      emit('updated','Usuario actualizado correctamente');
+      emit('updated','Usuario actualizado correctamente','success');
       emit('close');
       
        setTimeout(() => {
         router.visit(window.location.href, { replace: true });
       }, 1000);
     },
+    onError: (error) => {
+      emit('updated', 'Ocurrió un error al actualizar al usuario', 'error')
+    }
   });
 };
 </script>

@@ -32,7 +32,23 @@ class SucursalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'Nombre_Sucursal' => ['required','string','max:255'],
+            'Direccion' => ['string','max:255'],
+            'Gerente' => ['nullable']
+        ],[
+            'Nombre_Sucursal.required' => "El campo nombre de sucursal es obligatorio",
+            'Nombre_Sucursal.string' => "El campo nombre de sucursal debe ser una cadena de texto",
+            'Nombre_Sucursal.max' => "El campo nombre de sucursal debe contener un máximo de 255 caracteres",
+
+            'Direccion.string' => "El campo dirección debe ser una cadena de texto válida",
+            'Direccion.max' => "El campo dirección debe contener un máximo de 255 caracteres",
+        ]);
+
+        Sucursal::create($validated);
+
+        return redirect()->route('Sucursal.index')
+            ->with('success', 'Sucursal creada exitosamente');
     }
 
     /**
@@ -54,16 +70,40 @@ class SucursalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Sucursal $sucursal)
+    public function update(Request $request, string $id)
     {
-        //
+
+        $sucursal = Sucursal::findOrFail($id);
+
+        $validated = $request->validate([
+            'Nombre_Sucursal' => ['required','string','max:255'],
+            'Direccion' => ['required','max:255'],
+            'Gerente' => ['nullable']
+                ],[
+            'Nombre_Sucursal.required' => "El campo nombre de sucursal es obligatorio",
+            'Nombre_Sucursal.string' => "El campo nombre de sucursal debe ser una cadena de texto",
+            'Nombre_Sucursal.max' => "El campo nombre de sucursal debe contener un máximo de 255 caracteres",
+
+            'Direccion.required' => "El campo dirección es obligatorio",
+            'Direccion.max' => "El campo dirección debe contener un máximo de 255 caracteres",
+
+        ]);
+
+        $sucursal->update($validated);
+
+        return redirect()->route('Sucursal.index')
+            ->with('success', 'Sucursal actualizada exitosamente');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Sucursal $sucursal)
+    public function destroy($id)
     {
-        //
+        $sucursal = Sucursal::findOrFail($id);
+        $sucursal->delete();
+
+    return redirect()->route('Sucursal.index')
+        ->with('success', 'Sucursal eliminada correctamente');
     }
 }

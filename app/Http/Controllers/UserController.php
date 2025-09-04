@@ -89,11 +89,11 @@ class UserController extends Controller
             'Estado' => ['required'],
             'Comision' => ['required', 'numeric', 'min:0'],
         ],[
-                'name.string' => "El campo nombre solo pueden contener letras y espacios",
+                'name.string' => "El campo nombre debe ser una cadena de texto.",
                 'name.required' => "El campo nombre es obligatorio",
                 'name.max' => "El campo nombre debe tener un máximo de 255 caracteres",
 
-                'Apellido.string' => "El campo apellido solo pueden contener letras y espacios",
+                'Apellido.string' => "El campo apellido debe ser una cadena de texto.",
                 'Apellido.required' => "El campo apellido es obligatorio",
                 'Apellido.max' => "El campo apellido debe tener un máximo de 255 caracteres",
 
@@ -103,7 +103,7 @@ class UserController extends Controller
                 'email.max' => "El campo email debe tener un máximo de 255 caracteres",
 
                 'password.required' => "El campo contraseña es obligatorio",
-                'password.string' => "El campo de",
+                'password.string' => "El campo contraseña debe ser una cadena de texto.",
                 'password.max' => "El campo contraseña debe tener un máximo de 255 caracteres",
                 'password.min' => "El campo contraseña debe tener como mínimo 8 caracteres",
                 'password.regex'    => 'La contraseña debe contener al menos una letra y un número.',
@@ -176,11 +176,11 @@ class UserController extends Controller
         'Estado' => ['required'],
         'Comision' => ['required', 'numeric', 'min:0'],
     ], [
-        'name.string' => "El campo nombre solo puede contener letras y espacios",
+        'name.string' => "El campo nombre debe ser una cadena de texto",
         'name.required' => "El campo nombre es obligatorio",
         'name.max' => "El campo nombre debe tener un máximo de 255 caracteres",
 
-        'Apellido.string' => "El campo apellido solo puede contener letras y espacios",
+        'Apellido.string' => "El campo apellido debe ser una cadena de texto",
         'Apellido.required' => "El campo apellido es obligatorio",
         'Apellido.max' => "El campo apellido debe tener un máximo de 255 caracteres",
 
