@@ -172,8 +172,8 @@
                 :class="{ 'border-destructive': form.errors.Estado }"
               >
                 <option value="">Seleccione estado</option>
-                <option value="1">Activo</option>
-                <option value="0">Inactivo</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
               </select>
               <div v-if="form.errors.Estado" class="text-destructive text-xs mt-1">{{ form.errors.Estado }}</div>
             </div>
