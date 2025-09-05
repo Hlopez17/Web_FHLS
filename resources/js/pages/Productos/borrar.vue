@@ -11,7 +11,7 @@
         </h2>
         
         <p class="text-muted-foreground text-center mb-6">
-          ¿Estás seguro de que deseas eliminar al proveedor 
+          ¿Estás seguro de que deseas eliminar el producto 
           <span class="font-medium text-foreground">"{{ producto.Nombre }}"</span>? 
           Esta acción no se puede deshacer.
         </p>
@@ -47,17 +47,16 @@ import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-vue-next';
-import type { Producto,Unidadmedida, Categoria, Subcategoria} from '@/types';
+import type { Producto } from '@/types';
 
-// Props: se recibe el proveedor que se va a eliminar
 const props = defineProps<{
   producto: Producto;
 }>();
 
-// Emits: eventos personalizados que el componente puede emitir
 const emit = defineEmits<{
-  (e: 'close'): void;    // Para cerrar el modal
-  (e: 'deleted'): void;  // Para notificar que el proveedor fue eliminado
+  (e: 'close'): void;
+  (e: 'deleted'): void;
+  (e: 'error'): void;
 }>();
 
 // Estado para controlar el proceso de eliminación
@@ -71,15 +70,20 @@ const confirmDelete = async () => {
     await router.delete(`/Producto/${props.producto.Idproducto}`, {
       preserveScroll: true,
       onSuccess: () => {
+        // Emitir evento de eliminación exitosa
         emit('deleted');
+        // Cerrar el modal inmediatamente
         emit('close');
+        // Recargar la página después de 3 segundos
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
       },
       onError: (errors) => {
-        console.error('Error eliminando Producto:', errors);
-        processing.value = false;
-      },
-      onFinish: () => {
-        processing.value = false;
+        // Emitir evento de error
+        emit('error');
+        // Cerrar el modal inmediatamente
+        emit('close');
       }
     });
   } catch (error) {

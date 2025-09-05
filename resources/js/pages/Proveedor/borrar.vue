@@ -2,7 +2,7 @@
   <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
     <div class="bg-background rounded-lg border border-border shadow-lg w-full max-w-md">
       <div class="p-6">
-        <!-- Ícono de advertencia -->
+        <!-- Ícono -->
         <div class="flex items-center justify-center w-12 h-12 rounded-full bg-destructive/10 mx-auto mb-4">
           <Trash2 class="h-6 w-6 text-destructive" />
         </div>
@@ -44,6 +44,20 @@
       </div>
     </div>
   </div>
+
+  <!-- Toast -->
+  <Transition name="fade">
+    <div
+      v-if="showToast"
+      class="fixed top-6 right-6 z-50 px-4 py-2 rounded shadow-lg text-white text-sm"
+      :class="{
+        'bg-green-600': toastType === 'success',
+        'bg-red-600': toastType === 'error'
+      }"
+    >
+      {{ toastMessage }}
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -53,37 +67,57 @@ import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-vue-next';
 import type { Proveedor } from '@/types';
 
-// Props: se recibe el proveedor a eliminar
-const props = defineProps<{
-  proveedor: Proveedor;
-}>();
+// Props
+const props = defineProps<{ proveedor: Proveedor }>();
 
-// Emits: solo cerramos modal, el refresh + flash lo maneja Inertia automáticamente
+// Emits
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'deleted', msg: string): void;
+  (e: 'deleted', msg:string, type:any): void;
 }>();
 
 // Estado de carga
 const processing = ref(false);
 
-// Eliminar proveedor
+// Toast
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastType = ref<'success' | 'error'>('success');
+
+const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+  toastMessage.value = message;
+  toastType.value = type;
+  showToast.value = true;
+  setTimeout(() => (showToast.value = false), 3000);
+};
+
+// Confirmar eliminación
 const confirmDelete = async () => {
   processing.value = true;
 
-  await router.delete(`/proveedores/${props.proveedor.Idproveedor}`, {
-    preserveScroll: true,
-    onSuccess: () => {
-      emit('deleted', 'Proveedor eliminado correctamente ✅');
-      emit('close'); 
-      //refrescar la vista de proveedor
-      setTimeout(() => {
-        router.visit(window.location.href, { replace: true });
-      }, 1000);
-    },
-    onFinish: () => {
-      processing.value = false;
-    },
-  });
+  try {
+    await router.delete(`/proveedores/${props.proveedor.Idproveedor}`, {
+      preserveScroll: true,
+      onSuccess: () => {
+        emit('deleted', 'Proveedor eliminado correctamente', 'success');
+        emit('close');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      },
+      onError: (errors) => {
+        emit('deleted', 'Ocurrió un error al eliminar la categoría', 'error');
+        console.error('Error eliminando categoría:', errors);
+        processing.value = false;
+      },
+      onFinish: () => {
+        processing.value = false;
+      }
+    });
+  } catch (error) {
+    console.error('Error eliminando categoría:', error);
+    showNotification('Error inesperado ❌', 'error');
+    processing.value = false;
+  }
 };
 </script>

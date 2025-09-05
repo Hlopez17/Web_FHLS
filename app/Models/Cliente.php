@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Cliente extends Model
 {
         // Nombre de la tabla 
-    protected $table = 'Cliente';
+    protected $table = 'Clientes';
 
     //Se define como PrimaryKey y autoincremental gg
     protected $primaryKey = 'Idcliente';

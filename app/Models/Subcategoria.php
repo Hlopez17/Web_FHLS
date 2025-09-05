@@ -7,28 +7,32 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Subcategoria extends Model
 {
-      // Nombre de la tabla 
+    use HasFactory;
+
+    // Nombre de la tabla 
     protected $table = 'subcategorias';
 
-    //Se define como PrimaryKey y autoincremental gg
+    // Se define como PrimaryKey y autoincremental
     protected $primaryKey = 'Idsubcat';
     public $incrementing = true;
-    //protected $keyType = 'int';
+    // protected $keyType = 'int'; // si lo quieres forzar como entero
 
     // Campos que se pueden asignar de forma masiva
     protected $fillable = [
         'Nombre_subcat',
-        'Idcategoria'
+        'Idcategoria',
+        'created_at',
+        'updated_at'
     ]; 
 
-     public function categoria()
+    // Relaciones
+    public function categoria()
     {
         return $this->belongsTo(Categoria::class,'Idcategoria', 'Idcategoria');
     }
 
-        public function producto()
+    public function productos()
     {
         return $this->hasMany(Producto::class,'Idsubcat', 'Idsubcat');
     }
-    
 }

@@ -26,13 +26,32 @@ const roles = computed(() => props.roles || []);
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Usuarios', href: '/usuarios' }];
 
 // Variables para controlar los modales
-const editingUser = ref<UserType | null>(null);  // Usuario que se está editando
-const creatingUser = ref<boolean>(false);        // Modal de creación abierto o cerrado
-const deletingUser = ref<UserType | null>(null); // Usuario que se quiere eliminar
+const editingUser = ref<UserType | null>(null);
+const creatingUser = ref<boolean>(false);
+const deletingUser = ref<UserType | null>(null);
+
+// Mensajes flash locales
+const localFlash = ref<string | null>(null);
 
 // Función para abrir el modal de edición
 const editUser = (user: UserType) => {
   editingUser.value = user;
+};
+
+// Estado para el toast
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastType = ref<'success' | 'error'>('success');
+
+// Función para mostrar notificación
+const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+  toastMessage.value = message;
+  toastType.value = type;
+  showToast.value = true;
+  
+  setTimeout(() => {
+    showToast.value = false;
+  }, 3000);
 };
 
 // Función para abrir el modal de creación
@@ -77,18 +96,33 @@ const formatEstado = (estado: string | null) => {
 
 <!-- Layout principal con sidebar -->
 <AppLayout>
-  <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+ <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
 
-    <!-- Botón para abrir modal de creación de usuario -->
-    <div class="flex">
-      <Button
-        size="sm"
-        class="bg-indigo-600 hover:bg-indigo-700 text-white"
-        @click="openCreateModal"
-      >
-        <CirclePlus class="w-4 h-4 mr-1" /> Crear Usuario
-      </Button>
+        <!-- Toast Notification -->
+    <div v-if="showToast" :class="['fixed top-4 right-4 p-4 rounded-lg shadow-lg z-60 flex items-center transition-all duration-300', 
+        toastType === 'success' ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-800']">
+      <CheckCircle v-if="toastType === 'success'" class="h-5 w-5 mr-2" />
+      <AlertCircle v-else class="h-5 w-5 mr-2" />
+      <span>{{ toastMessage }}</span>
+      <button @click="showToast = false" class="ml-4 text-gray-500 hover:text-gray-700">
+        <X class="h-4 w-4" />
+      </button>
     </div>
+
+<!-- Mensajes locales -->
+      <div v-if="localFlash" class="mb-2 p-3 rounded bg-green-100 text-green-800">
+        {{ localFlash }}
+      </div>
+
+      <div class="flex">
+        <Button 
+          size="sm" 
+          class="bg-indigo-600 hover:bg-indigo-700 text-white"
+          @click="openCreateModal"
+        >
+          <CirclePlus class="w-4 h-4 mr-1" /> Crear Usuario
+        </Button>
+      </div>
 
     <!-- Tabla de usuarios -->
     <div class="relative min-h-[100vh] flex-1 rounded-xl border border-border">
@@ -182,29 +216,29 @@ const formatEstado = (estado: string | null) => {
     </div>
   </div>
 
-  <!-- Modal de edición de usuario -->
-  <EditarUsuario
-    v-if="editingUser"
-    :user="editingUser"
-    :roles="roles"
-    @close="editingUser = null"
-    @updated="refreshUsers"
-  />
+    <!-- Modal de edición -->
+    <EditarUsuario 
+      v-if="editingUser" 
+      :user="editingUser" 
+      :roles="roles"
+      @close="editingUser = null"
+      @updated="showNotification"
+    />
 
-  <!-- Modal de creación de usuario -->
-  <CrearUsuario
-    v-if="creatingUser"
-    :roles="roles"
-    @close="creatingUser = false"
-    @created="refreshUsers"
-  />
+    <!-- Modal de creación -->
+    <CrearUsuario 
+      v-if="creatingUser" 
+      :roles="roles"
+      @close="creatingUser = false"
+      @created="showNotification"
+    />
 
-  <!-- Modal de eliminación de usuario -->
-  <BorrarUsuario
-    v-if="deletingUser"
-    :user="deletingUser"
-    @close="deletingUser = null"
-    @deleted="refreshUsers"
-  />
+    <!-- Modal de eliminación -->
+    <BorrarUsuario 
+      v-if="deletingUser" 
+      :user="deletingUser"
+      @close="deletingUser = null"
+      @deleted="showNotification"
+    />
 </AppLayout>
 </template>

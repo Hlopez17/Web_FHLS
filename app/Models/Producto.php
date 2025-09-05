@@ -16,7 +16,8 @@ class Producto extends Model
     //protected $keyType = 'int';
 
     // Campos que se pueden asignar de forma masiva
-    protected $fillable = [
+    protected $fillable = 
+    [
         'Idsubcat',
         'Id_Medida',
         'Codigo_barra',

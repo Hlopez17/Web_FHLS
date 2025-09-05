@@ -1,103 +1,85 @@
 <script setup lang="ts">
-/**
- * Importación de layouts y componentes base
- */
 import AppLayout from '@/layouts/app/AppSidebarLayout.vue'; 
 import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Head, usePage, Link, router } from '@inertiajs/vue3';
-
-/**
- * Importación de componentes de UI (Tabla, Botones, etc.)
- */
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-
-/**
- * Iconos de lucide
- */
 import { Pencil, Trash, CirclePlus, List } from 'lucide-vue-next';
-
-/**
- * Herramientas de Vue
- */
 import { computed, ref } from 'vue';
 import type { Categoria } from '@/types';
-
-/**
- * Modales personalizados para CRUD
- */
 import EditarCategoria from './editar.vue';
 import CrearCategoria from './crear.vue';
 import BorrarCategoria from './borrar.vue';
 
-/**
- * Interfaz para las props que vienen de la página
- */
 interface CategoriaPageProps extends SharedData {
   categorias: Categoria[];
 }
-
-// Props recibidas desde Inertia
 const { props } = usePage<CategoriaPageProps>();
-
-// Computed para acceder a la lista de categorías
 const categorias = computed(() => props.categorias);
-
-// Migas de pan (navegación superior)
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Categorías', href: '/categorias' }];
 
-/**
- * Variables de estado para controlar la apertura de modales
- */
-const editingCategoria = ref<Categoria | null>(null); // Categoría que se está editando
-const creatingCategoria = ref<boolean>(false);        // Estado para abrir modal de creación
-const deletingCategoria = ref<Categoria | null>(null);// Categoría que se quiere eliminar
+// Variables para controlar los modales
+const editingCategoria = ref<Categoria | null>(null);
+const creatingCategoria = ref<boolean>(false);
+const deletingCategoria = ref<Categoria | null>(null);
 
-/**
- * Función para abrir modal de edición
- */
+// Función para abrir el modal de edición
 const editCategoria = (categoria: Categoria) => {
   editingCategoria.value = categoria;
 };
 
-/**
- * Función para abrir modal de creación
- */
+// Función para abrir el modal de creación
 const openCreateModal = () => {
   creatingCategoria.value = true;
 };
 
-/**
- * Función para abrir modal de eliminación
- */
+// Función para abrir el modal de eliminación
 const openDeleteModal = (categoria: Categoria) => {
   deletingCategoria.value = categoria;
 };
 
-/**
- * Función para refrescar la lista de categorías desde el servidor
- */
+// Función para refrescar las categorías
 const refreshCategorias = () => {
   router.reload({ only: ['categorias'] });
 };
 
-/**
- * Función para contar subcategorías de una categoría
- */
+// Función para contar subcategorías
 const countSubcategorias = (categoria: Categoria) => {
-  return categoria.subcategoria ? categoria.subcategoria.length : 0;
+  return categoria.subcategorias ? categoria.subcategorias.length : 0;
+};
+
+// Estado para el toast
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastType = ref<'success' | 'error'>('success');
+
+// Función para mostrar notificación
+const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+  toastMessage.value = message;
+  toastType.value = type;
+  showToast.value = true;
+
+  setTimeout(() => {
+    showToast.value = false;
+  }, 3000);
 };
 </script>
 
 <template>
-  <!-- Título de la página -->
-  <Head title="Categorías"/>
+<Head title="Categorías"/>
+<AppLayout>
+ <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+  <!-- Toast Notification -->
+    <div v-if="showToast" :class="['fixed top-4 right-4 p-4 rounded-lg shadow-lg z-60 flex items-center transition-all duration-300', 
+        toastType === 'success' ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-800']">
+      <CheckCircle v-if="toastType === 'success'" class="h-5 w-5 mr-2" />
+      <AlertCircle v-else class="h-5 w-5 mr-2" />
+      <span>{{ toastMessage }}</span>
+      <button @click="showToast = false" class="ml-4 text-gray-500 hover:text-gray-700">
+        <X class="h-4 w-4" />
+      </button>
+    </div>
 
-  <!-- Layout principal -->
-  <AppLayout>
-    <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-
-      <!-- Botón de crear nueva categoría -->
       <div class="flex">
         <Button 
           size="sm" 
@@ -108,12 +90,9 @@ const countSubcategorias = (categoria: Categoria) => {
         </Button>
       </div>
 
-      <!-- Tabla de categorías -->
       <div class="relative min-h-[100vh] flex-1 rounded-xl border border-border">
         <Table>
           <TableCaption>Lista de Categorías</TableCaption>
-          
-          <!-- Encabezados -->
           <TableHeader>
             <TableRow>
               <TableHead>ID</TableHead>
@@ -124,8 +103,6 @@ const countSubcategorias = (categoria: Categoria) => {
               <TableHead class="text-center">Acciones</TableHead>
             </TableRow>
           </TableHeader>
-
-          <!-- Filas dinámicas -->
           <TableBody>
             <TableRow v-for="categoria in categorias" :key="categoria.Idcategoria">
               <TableCell class="font-medium">{{ categoria.Idcategoria }}</TableCell>
@@ -138,10 +115,7 @@ const countSubcategorias = (categoria: Categoria) => {
               </TableCell>
               <TableCell>{{ categoria.created_at ? new Date(categoria.created_at).toLocaleDateString() : 'N/A' }}</TableCell>
               <TableCell>{{ categoria.updated_at ? new Date(categoria.updated_at).toLocaleDateString() : 'N/A' }}</TableCell>
-              
-              <!-- Acciones: Editar / Eliminar -->
               <TableCell class="flex justify-center gap-2">
-                <!-- Botón editar -->
                 <Button 
                   size="sm" 
                   variant="outline"
@@ -150,14 +124,11 @@ const countSubcategorias = (categoria: Categoria) => {
                 >
                   <Pencil class="h-4 w-4" />
                 </Button>
-
-                <!-- Botón eliminar (deshabilitado si tiene subcategorías) -->
                 <Button 
                   size="sm" 
                   variant="outline"
                   class="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
                   @click="openDeleteModal(categoria)"
-                  :disabled="countSubcategorias(categoria) > 0"
                 >
                   <Trash class="h-4 w-4" />
                 </Button>
@@ -173,14 +144,14 @@ const countSubcategorias = (categoria: Categoria) => {
       v-if="editingCategoria" 
       :categoria="editingCategoria" 
       @close="editingCategoria = null"
-      @updated="refreshCategorias"
+      @updated="(msg, type) => { refreshCategorias(); showNotification(msg, type); }"
     />
 
     <!-- Modal de creación -->
     <CrearCategoria 
       v-if="creatingCategoria" 
       @close="creatingCategoria = false"
-      @created="refreshCategorias"
+      @created="(msg, type) => { refreshCategorias(); showNotification(msg, type); }"
     />
 
     <!-- Modal de eliminación -->
@@ -188,7 +159,8 @@ const countSubcategorias = (categoria: Categoria) => {
       v-if="deletingCategoria" 
       :categoria="deletingCategoria"
       @close="deletingCategoria = null"
-      @deleted="refreshCategorias"
+      @deleted="(msg, type) => { refreshCategorias(); showNotification(msg, type); }"
     />
-  </AppLayout>
+
+</AppLayout>
 </template>

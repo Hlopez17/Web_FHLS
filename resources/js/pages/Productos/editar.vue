@@ -2,7 +2,6 @@
   <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
     <div class="bg-background rounded-lg border border-border shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
       <div class="p-6">
-        <!-- Título del modal -->
         <div class="flex items-center mb-4">
           <Building class="h-5 w-5 mr-2 text-primary" />
           <h2 class="text-xl font-semibold text-foreground">Editar Producto</h2>
@@ -10,7 +9,6 @@
 
         <form @submit.prevent="submitForm">
           <div class="space-y-4">
-            <!-- Código de Barra -->
             <div>
               <label for="Codigo_barra" class="flex items-center text-sm font-medium text-foreground mb-2">
                 Código de Barra *
@@ -32,7 +30,6 @@
               </div>
             </div>
 
-            <!-- Nombre Producto -->
             <div>
               <label for="Nombre" class="flex items-center text-sm font-medium text-foreground mb-2">
                 Nombre Producto *
@@ -54,7 +51,6 @@
               </div>
             </div>
 
-            <!-- Precio Costo -->
             <div>
               <label for="Precio_costo" class="flex items-center text-sm font-medium text-foreground mb-2">
                 Precio Costo
@@ -75,7 +71,6 @@
               </div>
             </div>
 
-            <!-- Precio Regular -->
             <div>
               <label for="Precio_venta" class="flex items-center text-sm font-medium text-foreground mb-2">
                 Precio Regular
@@ -96,7 +91,6 @@
               </div>
             </div>
 
-            <!-- Precio Descuento -->
             <div>
               <label for="Precio_descuento" class="flex items-center text-sm font-medium text-foreground mb-2">
                 Precio Descuento
@@ -117,7 +111,6 @@
               </div>
             </div>
 
-            <!-- Precio Mayorista -->
             <div>
               <label for="Precio_Mayorista" class="flex items-center text-sm font-medium text-foreground mb-2">
                 Precio Mayorista
@@ -138,7 +131,6 @@
               </div>
             </div>
 
-            <!-- Unidad de Medida -->
             <div>
               <label for="Id_Medida" class="block text-sm font-medium text-foreground mb-2">Unidad de Medida</label>
               <select
@@ -155,7 +147,6 @@
               <div v-if="form.errors.Id_Medida" class="text-destructive text-xs mt-1">{{ form.errors.Id_Medida }}</div>
             </div>
 
-            <!-- Subcategoría -->
             <div>
               <label for="Idsubcat" class="block text-sm font-medium text-foreground mb-2">Subcategoría</label>
               <select
@@ -172,7 +163,6 @@
               <div v-if="form.errors.Idsubcat" class="text-destructive text-xs mt-1">{{ form.errors.Idsubcat }}</div>
             </div>
 
-            <!-- Estado -->
             <div>
               <label for="Estado" class="block text-sm font-medium text-foreground mb-2">Estado</label>
               <select
@@ -182,14 +172,13 @@
                 :class="{ 'border-destructive': form.errors.Estado }"
               >
                 <option value="">Seleccione estado</option>
-                <option value="1">Activo</option>
-                <option value="0">Inactivo</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
               </select>
               <div v-if="form.errors.Estado" class="text-destructive text-xs mt-1">{{ form.errors.Estado }}</div>
             </div>
           </div>
 
-          <!-- Botones -->
           <div class="mt-6 flex justify-end space-x-2">
             <Button type="button" variant="outline" @click="$emit('close')" class="px-4 flex items-center">
               <X class="h-4 w-4 mr-1" /> Cancelar
@@ -212,7 +201,12 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
-import { Building, User, HandCoins, CircleDollarSign, X, Check, Loader2, AlertCircle, ScanBarcode } from 'lucide-vue-next';
+import { ref } from 'vue';
+import { 
+  Building, User, HandCoins, CircleDollarSign, X, Check, 
+  Loader2, AlertCircle, ScanBarcode
+} from 'lucide-vue-next';
+
 import type { Producto } from '@/types';
 import type { Subcategoria } from '@/types';
 import type { Unidadmedida } from '@/types';
@@ -241,12 +235,21 @@ const form = useForm({
 });
 
 const submitForm = () => {
-  form.put(`/productos/${props.producto.id}`, {
+  form.put(`/Producto/${props.producto.Idproducto}`, {
     preserveScroll: true,
     onSuccess: () => {
+      // Emitir evento de actualización exitosa
       emit('updated');
+      // Cerrar el modal inmediatamente
       emit('close');
+      // Recargar la página después de 3 segundos
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     },
+    onError: (errors) => {
+      console.log('Errores del formulario:', errors);
+    }
   });
 };
 </script>

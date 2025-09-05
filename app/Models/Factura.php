@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Factura extends Model
 {
      // Nombre de la tabla 
-    protected $table = 'Factura';
+    protected $table = 'facturas';
 
     //Se define como PrimaryKey y autoincremental gg
     protected $primaryKey = 'IdFactura';

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Unidadmedida;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class UnidadmedidaController extends Controller
 {
@@ -13,6 +14,9 @@ class UnidadmedidaController extends Controller
     public function index()
     {
         //
+        return Inertia::render('Unidadmedida/Index', [ // Pagina que carga
+            'unidadmedidas' => Unidadmedida::all() // Tabla de la cual jala datos
+        ]);
     }
 
     /**
@@ -20,7 +24,9 @@ class UnidadmedidaController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Unidadmedida/Index', [ //
+            'medida' => Unidadmedida::all() //
+        ]);
     }
 
     /**
@@ -28,7 +34,18 @@ class UnidadmedidaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Validacion
+        $request->validate([
+            'Nombre_Medida' => 'required|string|max:250|unique:unidadmedidas,Nombre_Medida'
+        ]);
+
+        //Crear la unidad medida
+        Unidadmedida::create([
+            'Nombre_Medida' => $request->Nombre_Medida,
+        ]);
+
+        return redirect()->route('Unidadmedida.index')
+            ->with('success', 'Unidad Medida Creada correctamente');
     }
 
     /**
@@ -44,7 +61,9 @@ class UnidadmedidaController extends Controller
      */
     public function edit(Unidadmedida $unidadmedida)
     {
-        //
+        return Inertia::render('Unidadmedida/Edit', [
+            'medida' => $unidadmedida
+        ]);
     }
 
     /**
@@ -52,7 +71,19 @@ class UnidadmedidaController extends Controller
      */
     public function update(Request $request, Unidadmedida $unidadmedida)
     {
-        //
+
+        //Validar datos
+        $request->validate([
+            'Nombre_Medida' => 'required|string|max:250|unique:unidadmedidas,Nombre_Medida,' . $unidadmedida->Id_Medida . ',Id_Medida',
+        ]);
+
+        //Actualizar la Medida
+        $unidadmedida->update([
+            'Nombre_Medida' => $request->Nombre_Medida,
+        ]);
+
+        return redirect()->route('Unidadmedida.index')
+            ->with('success', 'Unidad Medida actualizado correctamente');
     }
 
     /**
@@ -60,6 +91,14 @@ class UnidadmedidaController extends Controller
      */
     public function destroy(Unidadmedida $unidadmedida)
     {
-        //
+        if ($unidadmedida->producto()->count() > 0) {
+            return redirect()->route('Unidadmedida.index')
+                ->with('error', 'No se puede eliminar la unidad medida');
+        }
+
+        $unidadmedida->delete();
+
+        return redirect()->route('Unidadmedida.index')
+            ->with('success', 'Unidad Medida eliminada correctamente');
     }
 }
